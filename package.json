@@ -7,7 +7,7 @@
     "minecraft"
   ],
   "homepage": "https://github.com/sjmulder/nbt-js",
-  "author": "Sijmen Mulder <sjmulder@gmail.com>",
+  "author": "Sijmen Mulder <ik@sjmulder.nl>",
   "main": "nbt",
   "repository": {
     "type": "git",
