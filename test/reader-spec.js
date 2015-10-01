@@ -119,4 +119,21 @@ describe('nbt.Reader', function() {
 			cc: { type: "byte", value: 2 }
 		});
 	});
+
+	it('tracks the cursor location', function() {
+		var reader = new nbt.Reader(new Buffer([
+			0, 0,0,0,0,0,0,0,0
+		]));
+		expect(reader.offset).to.equal(0);
+		reader.byte();
+		reader.long();
+		expect(reader.offset).to.equal(9);
+	});
+
+	it('can change the cursor location', function() {
+		var reader = new nbt.Reader(new Buffer([1, 2]));
+		expect(reader.byte()).to.equal(1);
+		reader.offset = 0;
+		expect(reader.byte()).to.equal(1);
+	});
 });

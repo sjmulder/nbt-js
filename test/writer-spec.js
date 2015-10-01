@@ -121,5 +121,29 @@ describe('nbt.Writer', function() {
 			cc: { type: "byte", value: 2 }
 		}).buffer).to.deep.equal(buffer);
 	});
+	
+	it('tracks the number of bytes written', function() {
+		var writer = new nbt.Writer();
+		expect(writer.offset).to.equal(0);
+		writer.byte(12);
+		writer.long([34, 56]);
+		expect(writer.offset).to.equal(9);
+	});
+
+	it('can seek to a location within the buffer', function() {
+		var writer = new nbt.Writer();
+		writer.short(0x1234);
+		writer.offset = 1;
+		writer.short(0x5678);
+		expect(writer.buffer).to.deep.equal(new Buffer([0x12, 0x56, 0x78]));
+	});
+
+	it('can seek to a location beyond the buffer', function() {
+		var writer = new nbt.Writer();
+		writer.short(0x1234);
+		writer.offset = 3;
+		writer.short(0x5678);
+		expect(writer.buffer).to.deep.equal(new Buffer([0x12, 0x34, 0x00, 0x56, 0x78]));
+	});
 });
 
