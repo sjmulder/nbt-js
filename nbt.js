@@ -44,7 +44,7 @@
 		return data[0] === 0x1f && data[1] === 0x8b;
 	};
 
-    nbt.Writer = function() {
+	nbt.Writer = function() {
 		var self = this;
 
 		this.buffer = new Buffer(0);
@@ -58,6 +58,7 @@
 				self.buffer = newBuf;
 			}
 		});
+
 		function write(dataType, size, value) {
 			var oldoffset = self.offset;
 			self.offset += size;
@@ -98,19 +99,29 @@
 			function byteLength(str) {
 				// returns the byte length of an utf8 string
 				var s = str.length;
-				for (var i=str.length-1; i>=0; i--) {
+				var i;
+
+				for (i=str.length-1; i>=0; i--) {
 					var code = str.charCodeAt(i);
-					if (code > 0x7f && code <= 0x7ff) { s++; }
-					else if (code > 0x7ff && code <= 0xffff) { s+=2; }
-					if (code >= 0xDC00 && code <= 0xDFFF) { i--; } //trail surrogate
+					if (code > 0x7f && code <= 0x7ff) {
+						s++;
+					} else if (code > 0x7ff && code <= 0xffff) {
+						s += 2;
+						if (code >= 0xDC00 && code <= 0xDFFF) {
+							// trail surrogate
+							i--;
+						}
+					}
 				}
 				return s;
 			}
+
 			var len = byteLength(value);
 			this.short(len);
 			var oldoffset = this.offset;
 			this.offset += len;
 			this.buffer.write(value, oldoffset);
+
 			return this;
 		};
 
@@ -142,7 +153,8 @@
 			}
 		}
 
-    };
+	};
+
 	nbt.Reader = function(buffer) {
 		var self = this;
 
@@ -230,6 +242,7 @@
 		writer.byte(nbt.tagTypes.compound);
 		writer.string(value.root);
 		writer.compound(value.value);
+
 		return writer.buffer;
 	};
 
