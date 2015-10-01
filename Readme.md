@@ -1,15 +1,32 @@
-Prismarine-NBT
+NBT.js [![Build Status](https://travis-ci.org/sjmulder/nbt-js.png?branch=master)](https://travis-ci.org/sjmulder/nbt-js)
 ======
 
-Inspired by NBT.js, by Sijmen Mulder.
+By Sijmen Mulder and a host of wonderful contributors.
 
-Prismarine-NBT is a JavaScript parser and serializer for [NBT](http://wiki.vg/NBT) archives, for use with [Node.js](http://nodejs.org/).
+NBT.js is a JavaScript parser and serializer for [NBT](http://wiki.vg/NBT) archives, for use with [Node.js](http://nodejs.org/).
 
 
 Usage
 -----
 
-TODO
+After `var nbt = require('nbt')`, you can use `nbt.parse(data, callback)` to convert NBT data into a regular JavaScript object.
+
+    var fs = require('fs'),
+        nbt = require('nbt');
+
+    fs.readFile('bigtest.nbt', function(error, data) {
+        if (error) throw error;
+
+        nbt.parse(data, function(error, result) {
+            console.log(result.Level.stringTest);
+            console.log(result.Level['nested compound test']);
+        });
+    });
+
+If the data is gzipped, it is automatically decompressed first.
+
+Tag names are copied verbatim, and as some names are not valid JavaScript names, use of the indexer may be required – such as with the nested compound test in the example above.
+
 
 Development and testing
 -----------------------
