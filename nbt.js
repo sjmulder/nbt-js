@@ -48,21 +48,28 @@
 		var self = this;
 
 		this.buffer = new Buffer(0);
-		var _offset = 0;
-		Object.defineProperty(this, 'offset', {
-			get: function() { return _offset; },
-			set: function(newval) {
-				_offset = newval;
-				var newBuf = new Buffer(_offset);
-				self.buffer.copy(newBuf);
-				self.buffer = newBuf;
+		this.offset = 0; // bufer is adjusted on write
+
+		// Ensures that the buffer is large enough to write `size` bytes
+		// at the current `self.offset`.
+		function accommodate(size) {
+			if (self.offset + size >= self.buffer.length) {
+				var oldBuffer = self.buffer;
+				self.buffer = new Buffer(self.offset + size);
+				oldBuffer.copy(self.buffer);
+
+				// If there's a gap between the end of the old buffer
+				// and the start of the new one, we need to zero it out
+				if (self.offset > oldBuffer.length) {
+					self.buffer.fill(0, oldBuffer.length, self.offset);
+				}
 			}
-		});
+		}
 
 		function write(dataType, size, value) {
-			var oldoffset = self.offset;
+			accommodate(size);
+			self.buffer['write' + dataType](value, self.offset);
 			self.offset += size;
-			self.buffer['write' + dataType](value, oldoffset);
 			return self;
 		}
 
@@ -80,9 +87,9 @@
 
 		this[nbt.tagTypes.byteArray] = function(value) {
 			this.int(value.length);
-			var oldoffset = this.offset;
+			accommodate(value.length);
+			value.copy(this.buffer, this.offset);
 			this.offset += value.length;
-			value.copy(this.buffer, oldoffset);
 			return this;
 		};
 
@@ -118,9 +125,9 @@
 
 			var len = byteLength(value);
 			this.short(len);
-			var oldoffset = this.offset;
+			accommodate(len);
+			this.buffer.write(value, this.offset);
 			this.offset += len;
-			this.buffer.write(value, oldoffset);
 
 			return this;
 		};
