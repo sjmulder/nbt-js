@@ -8,6 +8,7 @@
   ],
   "homepage": "https://github.com/sjmulder/nbt-js",
   "author": "Sijmen Mulder <ik@sjmulder.nl>",
+  "license": "SEE LICENSE IN License.md",
   "main": "nbt",
   "repository": {
     "type": "git",
