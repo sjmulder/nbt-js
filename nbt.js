@@ -40,30 +40,29 @@
 		}
 	})();
 
-	var hasGzipHeader = function(data){
-		var result=true;
-		if(data[0]!=0x1f) result=false;
-		if(data[1]!=0x8b) result=false;
-		return result;
-	}
+	var hasGzipHeader = function(data) {
+		return data[0] === 0x1f && data[1] === 0x8b;
+	};
 
     nbt.Writer = function() {
+		var self = this;
+
 		this.buffer = new Buffer(0);
 		var _offset = 0;
-		Object.defineProperty(this, "offset", {
+		Object.defineProperty(this, 'offset', {
 			get: function() { return _offset; },
 			set: function(newval) {
 				_offset = newval;
 				var newBuf = new Buffer(_offset);
-				this.buffer.copy(newBuf);
-				this.buffer = newBuf;
+				self.buffer.copy(newBuf);
+				self.buffer = newBuf;
 			}
 		});
 		function write(dataType, size, value) {
-			var oldoffset = this.offset;
-			this.offset += size;
-			this.buffer['write' + dataType](value, oldoffset);
-			return this;
+			var oldoffset = self.offset;
+			self.offset += size;
+			self.buffer['write' + dataType](value, oldoffset);
+			return self;
 		}
 
 		this[nbt.tagTypes.byte]   = write.bind(this, 'Int8', 1);
@@ -73,9 +72,9 @@
 		this[nbt.tagTypes.double] = write.bind(this, 'DoubleBE', 8);
 
 		this[nbt.tagTypes.long] = function(value) {
-			this.int(value[0]);
-			this.int(value[1]);
-			return this;
+			self.int(value[0]);
+			self.int(value[1]);
+			return self;
 		};
 
 		this[nbt.tagTypes.byteArray] = function(value) {
@@ -101,16 +100,16 @@
 				var s = str.length;
 				for (var i=str.length-1; i>=0; i--) {
 					var code = str.charCodeAt(i);
-					if (code > 0x7f && code <= 0x7ff) s++;
-					else if (code > 0x7ff && code <= 0xffff) s+=2;
-					if (code >= 0xDC00 && code <= 0xDFFF) i--; //trail surrogate
+					if (code > 0x7f && code <= 0x7ff) { s++; }
+					else if (code > 0x7ff && code <= 0xffff) { s+=2; }
+					if (code >= 0xDC00 && code <= 0xDFFF) { i--; } //trail surrogate
 				}
 				return s;
 			}
 			var len = byteLength(value);
 			this.short(len);
 			var oldoffset = this.offset;
-			this.offset += len
+			this.offset += len;
 			this.buffer.write(value, oldoffset);
 			return this;
 		};
@@ -143,13 +142,15 @@
 			}
 		}
 
-    }
+    };
 	nbt.Reader = function(buffer) {
+		var self = this;
+
 		this.offset = 0;
 
 		function read(dataType, size) {
-			var val = buffer['read' + dataType](this.offset);
-			this.offset += size;
+			var val = buffer['read' + dataType](self.offset);
+			self.offset += size;
 			return val;
 		}
 
@@ -223,16 +224,16 @@
 		}
 	};
 
-	var writeUncompressed = this.writeUncompressed = function(value) {
+	this.writeUncompressed = function(value) {
 		var writer = new nbt.Writer();
 
 		writer.byte(nbt.tagTypes.compound);
 		writer.string(value.root);
 		writer.compound(value.value);
 		return writer.buffer;
-	}
+	};
 
-	var parseUncompressed = this.parseUncompressed = function(data) {
+	this.parseUncompressed = function(data) {
 		var buffer = new Buffer(data);
 		var reader = new nbt.Reader(buffer);
 
@@ -246,15 +247,17 @@
 
 		var result = { size: reader.offset, value: { root: name, value: value } };
 		return result;
-	}
+	};
 
 	this.parse = function(data, callback) {
+		var self = this;
+
 		if (hasGzipHeader(data)) {
 			zlib.gunzip(data, function(error, uncompressed) {
 				if (error) {
 					callback(error, data);
 				} else {
-					callback(null, parseUncompressed(uncompressed));
+					callback(null, self.parseUncompressed(uncompressed));
 				}
 			});
 		} else {
