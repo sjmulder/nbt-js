@@ -13,10 +13,9 @@ describe('nbt.parse', function() {
 			nbt.parse(data, function(err, data) {
 				if (err)
 					throw error;
-				expect(data.value.root).to.equal('Level');
-				expect(data.value.value.stringTest.value).to.equal(
-				'HELLO WORLD THIS IS A TEST STRING ÅÄÖ!');
-				expect(data.value.value['nested compound test'].value).to.deep.equal({
+				expect(data.Level.stringTest.value).to.equal(
+					'HELLO WORLD THIS IS A TEST STRING ÅÄÖ!');
+				expect(data.Level['nested compound test'].value).to.deep.equal({
 					ham: {
 						type: "compound",
 						value: {

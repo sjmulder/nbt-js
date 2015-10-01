@@ -258,8 +258,15 @@
 		var name = reader.string();
 		var value = reader.compound();
 
-		var result = { size: reader.offset, value: { root: name, value: value } };
-		return result;
+		// The root is a key/value pair. If the key is empty,
+		// just return the value.
+		if (name === '') {
+			return value;
+		} else {
+			var result = {};
+			result[name] = value;
+			return result;
+		}
 	};
 
 	this.parse = function(data, callback) {
