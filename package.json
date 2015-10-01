@@ -1,18 +1,19 @@
 {
-  "name": "prismarine-nbt",
-  "version": "0.0.1",
+  "name": "nbt",
+  "version": "0.4.0",
   "description": "A parser and serializer for NBT archives",
   "keywords": [
     "nbt",
     "minecraft"
   ],
-  "homepage": "https://github.com/prismarinejs/prismarine-nbt",
-  "author": "roblabla <robinlambertz+dev@gmail.com>",
+  "homepage": "https://github.com/sjmulder/nbt-js",
+  "author": "Sijmen Mulder <ik@sjmulder.nl>",
   "maintainers": [
     "roblabla <robinlambertz+dev@gmail.com",
     "Will Franzen <wtfranzen@gmail.com> (http://will.xyz/)",
     "Dennis Bartlett <bartlett.dc.1@gmail.com>"
   ],
+  "license": "SEE LICENSE IN License.md",
   "main": "nbt",
   "repository": {
     "type": "git",

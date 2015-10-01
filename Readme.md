@@ -21,11 +21,6 @@ Development and testing
     grunt watch   # Do the above two on every file change
 
 
-Known issues
-------------
-
-None !
-
 Copyright
 ---------
 
