@@ -40,9 +40,9 @@
 		}
 	})();
 
-	var hasGzipHeader = function(data) {
+	function hasGzipHeader(data) {
 		return data[0] === 0x1f && data[1] === 0x8b;
-	};
+	}
 
 	nbt.Writer = function() {
 		var self = this;
