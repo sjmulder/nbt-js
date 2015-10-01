@@ -38,12 +38,6 @@ Development and testing
     grunt watch   # Do the above two on every file change
 
 
-Known issues
-------------
-
- * [64 bit integers overflow](https://github.com/sjmulder/nbt-js/issues/1)
-
-
 Copyright
 ---------
 
