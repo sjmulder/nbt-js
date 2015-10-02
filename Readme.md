@@ -10,18 +10,19 @@ Usage
 -----
 
 After `var nbt = require('nbt')`, you can use `nbt.parse(data, callback)` to convert NBT data into a regular JavaScript object.
+```js
+var fs = require('fs'),
+    nbt = require('nbt');
 
-    var fs = require('fs'),
-        nbt = require('nbt');
+fs.readFile('bigtest.nbt', function(error, data) {
+    if (error) throw error;
 
-    fs.readFile('bigtest.nbt', function(error, data) {
-        if (error) throw error;
-
-        nbt.parse(data, function(error, data) {
-            console.log(data.value.stringTest.value);
-            console.log(data.value['nested compound test'].value);
-        });
+    nbt.parse(data, function(error, data) {
+        console.log(data.value.stringTest.value);
+        console.log(data.value['nested compound test'].value);
     });
+});
+```
 
 If the data is gzipped, it is automatically decompressed first.
 
@@ -32,11 +33,11 @@ Development and testing
 -----------------------
 
 [Grunt](http://gruntjs.com) is used as a task runner:
-
-    grunt jshint  # Check code quality
-    grunt test    # Run tests
-    grunt watch   # Do the above two on every file change
-
+```bash
+grunt jshint  # Check code quality
+grunt test    # Run tests
+grunt watch   # Do the above two on every file change
+```
 
 Copyright
 ---------
