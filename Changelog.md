@@ -30,7 +30,7 @@ A merge and slight rework of the terrific improvements by the people at [Prosmar
  * Improvement: jshint Grunt task for checking code quality.
  * Improvement: small fixes throughout based on jshint tips.
  * Improvement: added various unit tests with Jasmine.
- * Improvemnet: added links in documentation for easy lookup.
+ * Improvement: added links in documentation for easy lookup.
  * Improvement: dropped bundled binary library for built-in `Buffer`.
 
 0.2.0
