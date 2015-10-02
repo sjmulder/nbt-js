@@ -1,9 +1,9 @@
 NBT.js [![Build Status](https://travis-ci.org/sjmulder/nbt-js.png?branch=master)](https://travis-ci.org/sjmulder/nbt-js)
 ======
 
-by Sijmen Mulder.
+By Sijmen Mulder and a host of wonderful contributors.
 
-NBT.js is a JavaScript parser [NBT](http://www.minecraft.net/docs/NBT.txt) archives, for use with [Node.js](http://nodejs.org/).
+NBT.js is a JavaScript parser and serializer for [NBT](http://wiki.vg/NBT) archives, for use with [Node.js](http://nodejs.org/).
 
 
 Usage
@@ -12,15 +12,15 @@ Usage
 After `var nbt = require('nbt')`, you can use `nbt.parse(data, callback)` to convert NBT data into a regular JavaScript object.
 
     var fs = require('fs'),
-    	nbt = require('nbt');
+        nbt = require('nbt');
 
     fs.readFile('bigtest.nbt', function(error, data) {
-    	if (error) throw error;
+        if (error) throw error;
 
-		nbt.parse(data, function(error, result) {
-	    	console.log(result.Level.stringTest);
-	    	console.log(result.Level['nested compound test']);
-		});
+        nbt.parse(data, function(error, data) {
+            console.log(data.Level.stringTest.value);
+            console.log(data.Level['nested compound test'].value);
+        });
     });
 
 If the data is gzipped, it is automatically decompressed first.
