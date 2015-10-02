@@ -12,6 +12,10 @@ module.exports = function(grunt) {
 
 		jshint: {
 			options: {
+				globals: {
+					window: true
+				},
+
 				camelcase: true,
 				curly: true,
 				eqeqeq: true,

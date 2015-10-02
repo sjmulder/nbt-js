@@ -1,12 +1,11 @@
 'use strict';
 
-var fs = require('fs'),
-    nbt = require('../nbt'),
+var nbt = require('../nbt'),
     expect = require('chai').expect;
 
 describe('nbt.Writer', function() {
 	it('is constructed with no arguments', function() {
-		new nbt.Writer();
+		nbt.Writer();
 	});
 
 	it('writes 8-bit bytes', function() {

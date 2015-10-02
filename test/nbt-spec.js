@@ -32,8 +32,9 @@ describe('nbt.parse', function() {
 				throw error;
 			}
 			nbt.parse(data, function(err, data) {
-				if (err)
+				if (err) {
 					throw error;
+				}
 				checkBigtest(data);
 				done();
 			});
@@ -59,8 +60,9 @@ describe('nbt.parse', function() {
 describe('nbt.write', function() {
 	it('writes an uncompressed NBT file', function(done) {
 		fs.readFile('sample/bigtest.nbt', function(err, nbtdata) {
-			if (err)
+			if (err) {
 				throw err;
+			}
 			expect(nbt.writeUncompressed(require('../sample/bigtest'))).to.deep.equal(nbtdata);
 			done();
 		});

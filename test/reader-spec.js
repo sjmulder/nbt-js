@@ -1,12 +1,11 @@
 'use strict';
 
-var fs = require('fs'),
-    nbt = require('../nbt'),
+var nbt = require('../nbt'),
     expect = require('chai').expect;
 
 describe('nbt.Reader', function() {
 	it('is constructed with a buffer array', function() {
-		new nbt.Reader(new Buffer([1, 2, 3]));
+		nbt.Reader(new Buffer([1, 2, 3]));
 	});
 
 	it('reads 8-bit bytes', function() {

@@ -291,4 +291,4 @@
 			callback(null, self.parseUncompressed(data));
 		}
 	};
-}).apply(exports || (nbt = {}));
+}).apply(exports || (window.nbt = {}));
