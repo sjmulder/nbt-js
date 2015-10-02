@@ -288,7 +288,7 @@
 				}
 			});
 		} else {
-			callback(null, parseUncompressed(data));
+			callback(null, self.parseUncompressed(data));
 		}
 	};
 }).apply(exports || (nbt = {}));
