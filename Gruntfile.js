@@ -68,7 +68,10 @@ module.exports = function(grunt) {
 		},
 		jsdoc: {
 			dist: {
-				src: 'nbt.js',
+				src: [
+					'Readme.md',
+					'nbt.js'
+				],
 				dest: 'doc/'
 			}
 		}
