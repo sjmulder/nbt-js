@@ -8,11 +8,6 @@
   ],
   "homepage": "https://github.com/sjmulder/nbt-js",
   "author": "Sijmen Mulder <ik@sjmulder.nl>",
-  "maintainers": [
-    "roblabla <robinlambertz+dev@gmail.com",
-    "Will Franzen <wtfranzen@gmail.com> (http://will.xyz/)",
-    "Dennis Bartlett <bartlett.dc.1@gmail.com>"
-  ],
   "license": "SEE LICENSE IN License.md",
   "main": "nbt",
   "repository": {
