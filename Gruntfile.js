@@ -5,6 +5,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-jsdoc');
+	grunt.loadNpmTasks('grunt-contrib-clean');
 
 	var pkg = grunt.file.readJSON('package.json');
 
@@ -74,7 +75,10 @@ module.exports = function(grunt) {
 				],
 				dest: 'doc/'
 			}
-		}
+		},
+		clean: ['doc/']
 	});
+
 	grunt.registerTask('test', 'mochaTest');
+	grunt.registerTask('docs', ['clean', 'jsdoc'])
 };
