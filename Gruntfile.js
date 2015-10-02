@@ -4,6 +4,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-mocha-test');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
+	grunt.loadNpmTasks('grunt-jsdoc');
 
 	var pkg = grunt.file.readJSON('package.json');
 
@@ -63,6 +64,12 @@ module.exports = function(grunt) {
 					clearRequireCache: false
 				},
 				src: ['test/**/*.js']
+			}
+		},
+		jsdoc: {
+			dist: {
+				src: 'nbt.js',
+				dest: 'doc/'
 			}
 		}
 	});
