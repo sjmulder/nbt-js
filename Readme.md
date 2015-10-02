@@ -17,9 +17,9 @@ After `var nbt = require('nbt')`, you can use `nbt.parse(data, callback)` to con
     fs.readFile('bigtest.nbt', function(error, data) {
         if (error) throw error;
 
-        nbt.parse(data, function(error, result) {
-            console.log(result.Level.stringTest);
-            console.log(result.Level['nested compound test']);
+        nbt.parse(data, function(error, data) {
+            console.log(data.Level.stringTest.value);
+            console.log(data.Level['nested compound test'].value);
         });
     });
 
