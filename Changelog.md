@@ -1,6 +1,18 @@
 Changelog
 =========
 
+0.5.0
+-----
+
+A merge and slight rework of the terrific improvements by the people at [ProsmarineJS](https://github.com/PrismarineJS/prismarine-nbt).
+
+ * Feature: support for writing archives (to a `Buffer`).
+ * Improvement: switch to Mocha testing framwork.
+ * Improvement: `Reader.offset` is now exposed.
+ * Improvement: 64 bit values now represented as [upper, lower] pairs for better portability.
+ * Improvement: exposed `nbt.writeUncompressed`, which is sync as opposed to its unzipping counterpart.
+ * Improvement: lists and compounds now return type information. This creates a symetry because this output can be fed into the writer as-is.
+
 0.4.0
 -----
 
