@@ -80,5 +80,7 @@ module.exports = function(grunt) {
 	});
 
 	grunt.registerTask('test', 'mochaTest');
-	grunt.registerTask('docs', ['clean', 'jsdoc'])
+	grunt.registerTask('docs', ['clean', 'jsdoc']);
+
+	grunt.registerTask('default', ['jshint', 'test', 'docs']);
 };
