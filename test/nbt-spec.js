@@ -67,4 +67,11 @@ describe('nbt.write', function() {
 			done();
 		});
 	});
+
+	it('re-encodes it input perfectly', function() {
+		var input = require('../sample/bigtest');
+		var output = nbt.writeUncompressed(input);
+		var decodedOutput = nbt.parseUncompressed(output);
+		expect(decodedOutput).to.deep.equal(input);
+	});
 });
