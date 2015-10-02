@@ -108,7 +108,8 @@
 		this[nbt.tagTypes.byteArray] = function(value) {
 			this.int(value.length);
 			accommodate(value.length);
-			value.copy(this.buffer, this.offset);
+			var valueBuffer = 'copy' in value ? value : new Buffer(value);
+			valueBuffer.copy(this.buffer, this.offset);
 			this.offset += value.length;
 			return this;
 		};

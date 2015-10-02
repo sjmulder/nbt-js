@@ -123,7 +123,7 @@ module.exports = {
         },
         "byteArrayTest (the first 1000 values of (n*n*255+n*7)%100, starting with n=0 (0, 62, 34, 16, 8, ...))": {
             "type": "byteArray",
-            "value": new Buffer([
+            "value": [
                 0,
                 62,
                 34,
@@ -1124,7 +1124,7 @@ module.exports = {
                 74,
                 6,
                 48
-            ])
+            ]
         },
         "doubleTest": {
             "type": "double",

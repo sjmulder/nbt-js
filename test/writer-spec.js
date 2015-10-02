@@ -61,7 +61,7 @@ describe('nbt.Writer', function() {
 		expect(writer.double(1).buffer).to.deep.equal(buffer);
 	});
 
-	it('writes 8-bit byte arrays', function() {
+	it('writes 8-bit byte arrays from buffers', function() {
 		var writer = new nbt.Writer();
 		var buffer = new Buffer([
 			0,0,0,2, 1,2,
@@ -69,6 +69,16 @@ describe('nbt.Writer', function() {
 		]);
 		expect(writer.byteArray(new Buffer([1, 2])).buffer).to.deep.equal(buffer.slice(0, 6));
 		expect(writer.byteArray(new Buffer([3, 4, 5, 6])).buffer).to.deep.equal(buffer);
+	});
+
+	it('writes 8-bit byte arrays from plain arrays', function() {
+		var writer = new nbt.Writer();
+		var buffer = new Buffer([
+			0,0,0,2, 1,2,
+			0,0,0,4, 3,4,5,6
+		]);
+		expect(writer.byteArray([1, 2]).buffer).to.deep.equal(buffer.slice(0, 6));
+		expect(writer.byteArray([3, 4, 5, 6]).buffer).to.deep.equal(buffer);
 	});
 
 	it('writes 32-bit int arrays', function() {
