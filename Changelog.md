@@ -1,6 +1,23 @@
 Changelog
 =========
 
+0.6.0
+-----
+
+The big change here is that `parse()` now returns a consistent format again:
+
+    parse(foo); // -> { name: 'Level', value: { ... } }
+
+Similarly, that's what `writeUncompressed()` as well now:
+
+    writeUncompressed({ name: 'Level', value: { ... } });
+
+ * Improvement: dropped unused jasmine package dependency.
+ * Improvement: [#13] read() and write() cycles are now guaranteed to be idempotent.
+ * Improvement: [#14] back to consistent structure for parse() result.
+ * Improvement: [#15] `writer.byteArray()` now accepts both arrays and `Buffer`s.
+ * Fix: parse() would always throw when used on non-gzipped data.
+
 0.5.0
 -----
 
