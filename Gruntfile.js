@@ -40,7 +40,7 @@ module.exports = function(grunt) {
 			},
 			files: [
 				'nbt.js',
-				'nbt-spec.js',
+				'test/*.js',
 				'sample/sample.js',
 				'Gruntfile.js'
 			]
