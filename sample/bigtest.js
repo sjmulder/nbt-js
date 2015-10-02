@@ -1,5 +1,5 @@
 module.exports = {
-    "root": "Level",
+    "name": "Level",
     "value": {
         "longTest": {
             "type": "long",

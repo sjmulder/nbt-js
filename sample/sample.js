@@ -9,7 +9,7 @@ fs.readFile('bigtest.nbt.gz', function(error, data) {
 	}
 
 	nbt.parse(data, function(error, data) {
-		console.log(data.Level.stringTest.value);
-		console.log(data.Level['nested compound test'].value);
+		console.log(data.value.stringTest.value);
+		console.log(data.value['nested compound test'].value);
 	});
 });

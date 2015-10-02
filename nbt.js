@@ -248,7 +248,7 @@
 		var writer = new nbt.Writer();
 
 		writer.byte(nbt.tagTypes.compound);
-		writer.string(value.root);
+		writer.string(value.name);
 		writer.compound(value.value);
 
 		return writer.buffer;
@@ -263,18 +263,10 @@
 			throw new Error('Top tag should be a compound');
 		}
 
-		var name = reader.string();
-		var value = reader.compound();
-
-		// The root is a key/value pair. If the key is empty,
-		// just return the value.
-		if (name === '') {
-			return value;
-		} else {
-			var result = {};
-			result[name] = value;
-			return result;
-		}
+		return {
+			name: reader.string(),
+			value: reader.compound()
+		};
 	};
 
 	this.parse = function(data, callback) {

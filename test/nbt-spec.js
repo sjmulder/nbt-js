@@ -6,9 +6,9 @@ var fs = require('fs'),
 
 describe('nbt.parse', function() {
 	function checkBigtest(data) {
-		expect(data.Level.stringTest.value).to.equal(
+		expect(data.value.stringTest.value).to.equal(
 			'HELLO WORLD THIS IS A TEST STRING ÅÄÖ!');
-		expect(data.Level['nested compound test'].value).to.deep.equal({
+		expect(data.value['nested compound test'].value).to.deep.equal({
 			ham: {
 				type: "compound",
 				value: {

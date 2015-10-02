@@ -18,8 +18,8 @@ After `var nbt = require('nbt')`, you can use `nbt.parse(data, callback)` to con
         if (error) throw error;
 
         nbt.parse(data, function(error, data) {
-            console.log(data.Level.stringTest.value);
-            console.log(data.Level['nested compound test'].value);
+            console.log(data.value.stringTest.value);
+            console.log(data.value['nested compound test'].value);
         });
     });
 
