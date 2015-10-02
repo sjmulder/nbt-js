@@ -12,31 +12,25 @@ module.exports = function(grunt) {
 
 		jshint: {
 			options: {
-				globals: {
-					'beforeEach': true,
-					'describe': true,
-					'expect': true,
-					'it': true,
-					'jasmine': true,
-					'runs': true,
-					'spyOn': true,
-					'waitsFor': true
-				},
 				camelcase: true,
 				curly: true,
 				eqeqeq: true,
 				forin: true,
-				immed: true,
-				newcap: true,
+				latedef: true,
 				noarg: true,
-				node: true,
 				nonbsp: true,
-				quotmark: 'single',
+				nonew: true,
 				smarttabs: true,
 				strict: true,
 				sub: true,
 				trailing: true,
-				unused: true
+				unused: true,
+				undef: true,
+				/* varstmt: true, */
+
+				esnext: true,
+				node: true,
+				mocha: true
 			},
 			files: [
 				'nbt.js',
