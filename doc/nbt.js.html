@@ -1,4 +1,32 @@
-/*
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: nbt.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: nbt.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/*
 	NBT.js - a JavaScript parser for NBT archives
 	by Sijmen Mulder
 
@@ -24,7 +52,7 @@
 	 * have correspoding methods (e.g. {@link module:nbt.Writer#int})
 	 * for every type.
 	 *
-	 * @type Object<string, number>
+	 * @type Object&lt;string, number>
 	 * @see module:nbt.tagTypeNames */
 	nbt.tagTypes = {
 		'end': 0,
@@ -44,7 +72,7 @@
 	/**
 	 * A mapping from NBT type numbers to type names.
 	 *
-	 * @type Object<number, string>
+	 * @type Object&lt;number, string>
 	 * @see module:nbt.tagTypes */
 	nbt.tagTypeNames = {};
 	(function() {
@@ -56,7 +84,7 @@
 	})();
 
 	function hasGzipHeader(data) {
-		return data[0] === 0x1f && data[1] === 0x8b;
+		return data[0] === 0x1f &amp;&amp; data[1] === 0x8b;
 	}
 
 	/**
@@ -120,11 +148,11 @@
 
 			for (i=str.length-1; i>=0; i--) {
 				var code = str.charCodeAt(i);
-				if (code > 0x7f && code <= 0x7ff) {
+				if (code > 0x7f &amp;&amp; code &lt;= 0x7ff) {
 					s++;
-				} else if (code > 0x7ff && code <= 0xffff) {
+				} else if (code > 0x7ff &amp;&amp; code &lt;= 0xffff) {
 					s += 2;
-					if (code >= 0xDC00 && code <= 0xDFFF) {
+					if (code >= 0xDC00 &amp;&amp; code &lt;= 0xDFFF) {
 						// trail surrogate
 						i--;
 					}
@@ -176,7 +204,7 @@
 		 * upper and lower halves of the long.
 		 *
 		 * @method module:nbt.Writer#long
-		 * @param {Array.<number>} value - [upper, lower]
+		 * @param {Array.&lt;number>} value - [upper, lower]
 		 * @returns {module:nbt.Writer} itself */
 		this[nbt.tagTypes.long] = function(value) {
 			self.int(value[0]);
@@ -186,7 +214,7 @@
 
 		/**
 		 * @method module:nbt.Writer#byteArray
-		 * @param {Array.<number>|Buffer} value
+		 * @param {Array.&lt;number>|Buffer} value
 		 * @returns {module:nbt.Writer} itself */
 		this[nbt.tagTypes.byteArray] = function(value) {
 			this.int(value.length);
@@ -199,12 +227,12 @@
 
 		/**
 		 * @method module:nbt.Writer#intArray
-		 * @param {Array.<number>} value
+		 * @param {Array.&lt;number>} value
 		 * @returns {module:nbt.Writer} itself */
 		this[nbt.tagTypes.intArray] = function(value) {
 			this.int(value.length);
 			var i;
-			for (i = 0; i < value.length; i++) {
+			for (i = 0; i &lt; value.length; i++) {
 				this.int(value[i]);
 			}
 			return this;
@@ -234,7 +262,7 @@
 			this.byte(nbt.tagTypes[value.type]);
 			this.int(value.value.length);
 			var i;
-			for (i = 0; i < value.value.length; i++) {
+			for (i = 0; i &lt; value.value.length; i++) {
 				this[value.type](value.value[i]);
 			}
 			return this;
@@ -332,19 +360,19 @@
 		 * 32-bit integers, the upper and the lower.
 		 *
 		 * @method module:nbt.Reader#long
-		 * @returns {Array.<number>} [upper, lower] */
+		 * @returns {Array.&lt;number>} [upper, lower] */
 		this[nbt.tagTypes.long] = function() {
 			return [this.int(), this.int()];
 		};
 
 		/**
 		 * @method module:nbt.Reader#byteArray
-		 * @returns {Array.<number>} the read array */
+		 * @returns {Array.&lt;number>} the read array */
 		this[nbt.tagTypes.byteArray] = function() {
 			var length = this.int();
 			var bytes = [];
 			var i;
-			for (i = 0; i < length; i++) {
+			for (i = 0; i &lt; length; i++) {
 				bytes.push(this.byte());
 			}
 			return bytes;
@@ -352,12 +380,12 @@
 
 		/**
 		 * @method module:nbt.Reader#intArray
-		 * @returns {Array.<number>} the read array of 32-bit ints */
+		 * @returns {Array.&lt;number>} the read array of 32-bit ints */
 		this[nbt.tagTypes.intArray] = function() {
 			var length = this.int();
 			var ints = [];
 			var i;
-			for (i = 0; i < length; i++) {
+			for (i = 0; i &lt; length; i++) {
 				ints.push(this.int());
 			}
 			return ints;
@@ -385,7 +413,7 @@
 			var length = this.int();
 			var values = [];
 			var i;
-			for (i = 0; i < length; i++) {
+			for (i = 0; i &lt; length; i++) {
 				values.push(this[type]());
 			}
 			return { type: nbt.tagTypeNames[type], value: values };
@@ -393,7 +421,7 @@
 
 		/**
 		 * @method module:nbt.Reader#compound
-		 * @returns {Object.<string, { type: string, value }>}
+		 * @returns {Object.&lt;string, { type: string, value }>}
 		 *
 		 * @example
 		 * reader.compound();
@@ -450,7 +478,7 @@
 
 	/**
 	 * @param {Buffer} data - an uncompressed NBT archive
-	 * @returns {{name: string, value: Object.<string, Object>}}
+	 * @returns {{name: string, value: Object.&lt;string, Object>}}
 	 *     a named compound
 	 *
 	 * @see module:nbt.parse
@@ -491,7 +519,7 @@
 	 *
 	 * @param {Buffer} data - gzipped or uncompressed data
 	 * @param {parseCallback} callback
-	 *
+	 * 
 	 * @see module:nbt.parseUncompressed
 	 * @see module:nbt.Reader#compound
 	 *
@@ -519,3 +547,26 @@
 		}
 	};
 }).apply(exports || (window.nbt = {}));
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-nbt.html">nbt</a></li></ul><h3>Classes</h3><ul><li><a href="module-nbt.Reader.html">Reader</a></li><li><a href="module-nbt.Writer.html">Writer</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.3</a> on Fri Oct 02 2015 21:54:07 GMT+0000 (UTC)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
