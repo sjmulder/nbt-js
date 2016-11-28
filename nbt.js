@@ -13,10 +13,20 @@
 (function() {
 	'use strict';
 
+	if (typeof ArrayBuffer === 'undefined') {
+		throw 'Missing required type ArrayBuffer';
+	}
+	if (typeof DataView === 'undefined') {
+		throw 'Missing required type DataView';
+	}
+	if (typeof Uint8Array === 'undefined') {
+		throw 'Missing required type Uint8Array';
+	}
+
 	/** @exports nbt */
 
 	var nbt = this;
-	var zlib = require('zlib');
+	var zlib = typeof require !== 'undefined' ? require('zlib') : window.zlib;
 
 	/**
 	 * A mapping from type names to NBT type numbers.
@@ -566,16 +576,19 @@
 	nbt.parse = function(data, callback) {
 		var self = this;
 
-		if (hasGzipHeader(data)) {
+		if (!hasGzipHeader(data)) {
+			callback(null, self.parseUncompressed(data));
+		} else if (!zlib) {
+			callback('NBT archive is compressed but zlib is not available',
+				null);
+		} else {
 			zlib.gunzip(data, function(error, uncompressed) {
 				if (error) {
-					callback(error, data);
+					callback(error, null);
 				} else {
 					callback(null, self.parseUncompressed(uncompressed));
 				}
 			});
-		} else {
-			callback(null, self.parseUncompressed(data));
 		}
 	};
-}).apply(exports || (window.nbt = {}));
+}).apply(typeof exports !== 'undefined' ? exports : (window.nbt = {}));

@@ -1,11 +1,6 @@
 {
 	"globals": {
-		"window": true,
-		"exports": true,
-		"require": true,
-		"ArrayBuffer": true,
-		"DataView": true,
-		"Uint8Array": true
+		"window": true
 	},
 
 	"camelcase": true,
@@ -21,5 +16,7 @@
 	"sub": true,
 	"trailing": true,
 	"unused": true,
-	"undef": true
+	"undef": true,
+
+	"node": true
 }
