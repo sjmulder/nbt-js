@@ -1,3 +1,4 @@
+NODE   = node
 JSLINT = node_modules/.bin/jshint
 JSTEST = node_modules/.bin/mocha
 JSDOC  = node_modules/.bin/jsdoc
@@ -11,6 +12,7 @@ all:
 
 check:
 	$(JSLINT) nbt.js test/*.js sample/sample.js
+	cd sample && $(NODE) sample.js > /dev/null
 	$(JSTEST) $(TEST_SRC)
 
 doc:
