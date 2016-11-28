@@ -3,13 +3,14 @@ NBT.js [![Build Status](https://travis-ci.org/sjmulder/nbt-js.png?branch=master)
 
 By Sijmen Mulder and a host of wonderful contributors.
 
-NBT.js is a JavaScript parser and serializer for [NBT](http://wiki.vg/NBT) archives, for use with [Node.js](http://nodejs.org/).
+NBT.js is a JavaScript parser and serializer for [NBT](http://wiki.vg/NBT) archives, for use with [Node.js](http://nodejs.org/) or the browser.
 
 
 Usage
 -----
 
-After `var nbt = require('nbt')`, you can use `nbt.parse(data, callback)` to convert NBT data into a regular JavaScript object.
+After `var nbt = require('nbt')` or `<script src="nbt.js"></script>`, you can use `nbt.parse(data, callback)` to convert NBT data into a regular JavaScript object.
+
 ```js
 var fs = require('fs'),
     nbt = require('nbt');
@@ -24,7 +25,7 @@ fs.readFile('bigtest.nbt', function(error, data) {
 });
 ```
 
-If the data is gzipped, it is automatically decompressed first.
+If the data is gzipped, it is automatically decompressed first. When running in the browser, `window.zlib` is required for this to work.
 
 Tag names are copied verbatim, and as some names are not valid JavaScript names, use of the indexer may be required – such as with the nested compound test in the example above.
 
