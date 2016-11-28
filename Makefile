@@ -2,6 +2,8 @@ JSLINT = node_modules/.bin/jshint
 JSTEST = node_modules/.bin/mocha
 JSDOC  = node_modules/.bin/jsdoc
 
+TEST_SRC = test/*.js
+
 .PHONY: check doc watch clean
 
 all:
@@ -9,7 +11,7 @@ all:
 
 check:
 	$(JSLINT) nbt.js test/*.js sample/sample.js
-	$(JSTEST) test/*.js
+	$(JSTEST) $(TEST_SRC)
 
 doc:
 	$(JSDOC) -d doc/ Readme.md nbt.js
