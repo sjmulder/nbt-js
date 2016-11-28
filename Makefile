@@ -17,7 +17,7 @@ doc:
 	$(JSDOC) -d doc/ Readme.md nbt.js
 
 watch:
-	while true; do clear; $(MAKE) check doc; sleep 4; done
+	while true; do clear; $(MAKE) check; sleep 4; done
 
 clean:
 	rm -rf doc/
