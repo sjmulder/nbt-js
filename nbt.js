@@ -13,10 +13,20 @@
 (function() {
 	'use strict';
 
+	if (typeof ArrayBuffer === 'undefined') {
+		throw 'Missing required type ArrayBuffer';
+	}
+	if (typeof DataView === 'undefined') {
+		throw 'Missing required type DataView';
+	}
+	if (typeof Uint8Array === 'undefined') {
+		throw 'Missing required type Uint8Array';
+	}
+
 	/** @exports nbt */
 
 	var nbt = this;
-	var zlib = require('zlib');
+	var zlib = typeof require !== 'undefined' ? require('zlib') : window.zlib;
 
 	/**
 	 * A mapping from type names to NBT type numbers.
@@ -59,6 +69,63 @@
 		return data[0] === 0x1f && data[1] === 0x8b;
 	}
 
+	function encodeUTF8(str) {
+		var array = [], i, c;
+		for (i = 0; i < str.length; i++) {
+			c = str.charCodeAt(i);
+			if (c < 0x80) {
+				array.push(c);
+			} else if (c < 0x800) {
+				array.push(0xC0 | c >> 6);
+				array.push(0x80 | c         & 0x3F);
+			} else if (c < 0x10000) {
+				array.push(0xE0 |  c >> 12);
+				array.push(0x80 | (c >>  6) & 0x3F);
+				array.push(0x80 |  c        & 0x3F);
+			} else {
+				array.push(0xF0 | (c >> 18) & 0x07);
+				array.push(0x80 | (c >> 12) & 0x3F);
+				array.push(0x80 | (c >>  6) & 0x3F);
+				array.push(0x80 |  c        & 0x3F);
+			}
+		}
+		return array;
+	}
+
+	function decodeUTF8(array) {
+		var codepoints = [], i;
+		for (i = 0; i < array.length; i++) {
+			if ((array[i] & 0x80) === 0) {
+				codepoints.push(array[i] & 0x7F);
+			} else if (i+1 < array.length &&
+						(array[i]   & 0xE0) === 0xC0 &&
+						(array[i+1] & 0xC0) === 0x80) {
+				codepoints.push(
+					((array[i]   & 0x1F) << 6) |
+					( array[i+1] & 0x3F));
+			} else if (i+2 < array.length &&
+						(array[i]   & 0xF0) === 0xE0 &&
+						(array[i+1] & 0xC0) === 0x80 &&
+						(array[i+2] & 0xC0) === 0x80) {
+				codepoints.push(
+					((array[i]   & 0x0F) << 12) |
+					((array[i+1] & 0x3F) <<  6) |
+					( array[i+2] & 0x3F));
+			} else if (i+3 < array.length &&
+						(array[i]   & 0xF8) === 0xF0 &&
+						(array[i+1] & 0xC0) === 0x80 &&
+						(array[i+2] & 0xC0) === 0x80 &&
+						(array[i+3] & 0xC0) === 0x80) {
+				codepoints.push(
+					((array[i]   & 0x07) << 18) |
+					((array[i+1] & 0x3F) << 12) |
+					((array[i+2] & 0x3F) <<  6) |
+					( array[i+3] & 0x3F));
+			}
+		}
+		return String.fromCharCode.apply(null, codepoints);
+	}
+
 	/**
 	 * In addition to the named writing methods documented below,
 	 * the same methods are indexed by the NBT type number as well,
@@ -83,11 +150,12 @@
 	nbt.Writer = function() {
 		var self = this;
 
-		/**
-		 * Will be resized on write if necessary.
-		 *
-		 * @type Buffer */
-		this.buffer = new Buffer(0);
+		/* Will be resized (x2) on write if necessary. */
+		var buffer = new ArrayBuffer(1024);
+
+		/* These are recreated when the buffer is */
+		var dataView = new DataView(buffer);
+		var arrayView = new Uint8Array(buffer);
 
 		/**
 		 * The location in the buffer where bytes are written or read.
@@ -95,50 +163,52 @@
 		 * The buffer will be resized when necessary.
 		 *
 		 * @type number */
-		this.offset = 0; // bufer is adjusted on write
+		this.offset = 0;
 
 		// Ensures that the buffer is large enough to write `size` bytes
 		// at the current `self.offset`.
 		function accommodate(size) {
-			if (self.offset + size >= self.buffer.length) {
-				var oldBuffer = self.buffer;
-				self.buffer = new Buffer(self.offset + size);
-				oldBuffer.copy(self.buffer);
-
-				// If there's a gap between the end of the old buffer
-				// and the start of the new one, we need to zero it out
-				if (self.offset > oldBuffer.length) {
-					self.buffer.fill(0, oldBuffer.length, self.offset);
-				}
+			var requiredLength = self.offset + size;
+			if (buffer.byteLength >= requiredLength) {
+				return;
 			}
-		}
 
-		function getStringSize(str) {
-			// returns the byte length of an utf8 string
-			var s = str.length;
-			var i;
-
-			for (i=str.length-1; i>=0; i--) {
-				var code = str.charCodeAt(i);
-				if (code > 0x7f && code <= 0x7ff) {
-					s++;
-				} else if (code > 0x7ff && code <= 0xffff) {
-					s += 2;
-					if (code >= 0xDC00 && code <= 0xDFFF) {
-						// trail surrogate
-						i--;
-					}
-				}
+			var newLength = buffer.byteLength;
+			while (newLength < requiredLength) {
+				newLength *= 2;
 			}
-			return s;
+
+			var newBuffer = new ArrayBuffer(newLength);
+			var newArrayView = new Uint8Array(newBuffer);
+			newArrayView.set(arrayView);
+
+			// If there's a gap between the end of the old buffer
+			// and the start of the new one, we need to zero it out
+			if (self.offset > buffer.byteLength) {
+				newArrayView.fill(0, buffer.byteLength, self.offset);
+			}
+
+			buffer = newBuffer;
+			dataView = new DataView(newBuffer);
+			arrayView = newArrayView;
 		}
 
 		function write(dataType, size, value) {
 			accommodate(size);
-			self.buffer['write' + dataType](value, self.offset);
+			dataView['set' + dataType](self.offset, value);
 			self.offset += size;
 			return self;
 		}
+
+		/**
+		 * Returns the writen data as a slice from the internal buffer,
+		 * cutting off any padding at the end.
+		 *
+		 * @returns {ArrayBuffer} a [0, offset] slice of the interal buffer */
+		this.getData = function() {
+			accommodate(0);  /* make sure the offset is inside the buffer */
+			return buffer.slice(0, self.offset);
+		};
 
 		/**
 		 * @method module:nbt.Writer#byte
@@ -150,25 +220,25 @@
 		 * @method module:nbt.Writer#short
 		 * @param {number} value - a signed 16-bit integer
 		 * @returns {module:nbt.Writer} itself */
-		this[nbt.tagTypes.short] = write.bind(this, 'Int16BE', 2);
+		this[nbt.tagTypes.short] = write.bind(this, 'Int16', 2);
  
 		/**
 		 * @method module:nbt.Writer#int
 		 * @param {number} value - a signed 32-bit integer
 		 * @returns {module:nbt.Writer} itself */
-		this[nbt.tagTypes.int] = write.bind(this, 'Int32BE', 4);
+		this[nbt.tagTypes.int] = write.bind(this, 'Int32', 4);
 
 		/**
 		 * @method module:nbt.Writer#float
 		 * @param {number} value - a signed 32-bit float
 		 * @returns {module:nbt.Writer} itself */
-		this[nbt.tagTypes.float] = write.bind(this, 'FloatBE', 4);
+		this[nbt.tagTypes.float] = write.bind(this, 'Float32', 4);
 
 		/**
 		 * @method module:nbt.Writer#float
 		 * @param {number} value - a signed 64-bit float
 		 * @returns {module:nbt.Writer} itself */
-		this[nbt.tagTypes.double] = write.bind(this, 'DoubleBE', 8);
+		this[nbt.tagTypes.double] = write.bind(this, 'Float64', 8);
 
 		/**
 		 * As JavaScript does not support 64-bit integers natively, this
@@ -186,13 +256,12 @@
 
 		/**
 		 * @method module:nbt.Writer#byteArray
-		 * @param {Array.<number>|Buffer} value
+		 * @param {Array.<number>|Uint8Array|Buffer} value
 		 * @returns {module:nbt.Writer} itself */
 		this[nbt.tagTypes.byteArray] = function(value) {
 			this.int(value.length);
 			accommodate(value.length);
-			var valueBuffer = 'copy' in value ? value : new Buffer(value);
-			valueBuffer.copy(this.buffer, this.offset);
+			arrayView.set(value, this.offset);
 			this.offset += value.length;
 			return this;
 		};
@@ -215,12 +284,11 @@
 		 * @param {string} value
 		 * @returns {module:nbt.Writer} itself */
 		this[nbt.tagTypes.string] = function(value) {
-			var len = getStringSize(value);
-			this.short(len);
-			accommodate(len);
-			this.buffer.write(value, this.offset);
-			this.offset += len;
-
+			var bytes = encodeUTF8(value);
+			this.short(bytes.length);
+			accommodate(bytes.length);
+			arrayView.set(bytes, this.offset);
+			this.offset += bytes.length;
 			return this;
 		};
 
@@ -295,8 +363,11 @@
 		 * @type number */
 		this.offset = 0;
 
+		var arrayView = new Uint8Array(buffer);
+		var dataView = new DataView(arrayView.buffer);
+
 		function read(dataType, size) {
-			var val = buffer['read' + dataType](self.offset);
+			var val = dataView['get' + dataType](self.offset);
 			self.offset += size;
 			return val;
 		}
@@ -309,22 +380,22 @@
 		/**
 		 * @method module:nbt.Reader#short
 		 * @returns {number} the read signed 16-bit short  */
-		this[nbt.tagTypes.short] = read.bind(this, 'Int16BE', 2);
+		this[nbt.tagTypes.short] = read.bind(this, 'Int16', 2);
 
 		/**
 		 * @method module:nbt.Reader#int
 		 * @returns {number} the read signed 32-bit integer */
-		this[nbt.tagTypes.int] = read.bind(this, 'Int32BE', 4);
+		this[nbt.tagTypes.int] = read.bind(this, 'Int32', 4);
 
 		/**
 		 * @method module:nbt.Reader#float
 		 * @returns {number} the read signed 32-bit float */
-		this[nbt.tagTypes.float] = read.bind(this, 'FloatBE', 4);
+		this[nbt.tagTypes.float] = read.bind(this, 'Float32', 4);
 
 		/**
 		 * @method module:nbt.Reader#double
 		 * @returns {number} the read signed 64-bit float */
-		this[nbt.tagTypes.double] = read.bind(this, 'DoubleBE', 8);
+		this[nbt.tagTypes.double] = read.bind(this, 'Float64', 8);
 
 		/**
 		 * As JavaScript does not not natively support 64-bit
@@ -368,9 +439,9 @@
 		 * @returns {string} the read string */
 		this[nbt.tagTypes.string] = function() {
 			var length = this.short();
-			var val = buffer.toString('utf8', this.offset, this.offset + length);
+			var slice = arrayView.slice(this.offset, this.offset + length);
 			this.offset += length;
-			return val;
+			return decodeUTF8(slice);
 		};
 
 		/**
@@ -425,7 +496,7 @@
 	 * @param {Object} value - a named compound
 	 * @param {string} value.name - the top-level name
 	 * @param {Object} value.value - a compound
-	 * @returns {Buffer}
+	 * @returns {ArrayBuffer}
 	 *
 	 * @see module:nbt.parseUncompressed
 	 * @see module:nbt.Writer#compound
@@ -438,18 +509,18 @@
 	 *         bar: { type: string, value: 'Hi!' }
 	 *     }
 	 * }); */
-	this.writeUncompressed = function(value) {
+	nbt.writeUncompressed = function(value) {
 		var writer = new nbt.Writer();
 
 		writer.byte(nbt.tagTypes.compound);
 		writer.string(value.name);
 		writer.compound(value.value);
 
-		return writer.buffer;
+		return writer.getData();
 	};
 
 	/**
-	 * @param {Buffer} data - an uncompressed NBT archive
+	 * @param {ArrayBuffer|Buffer} data - an uncompressed NBT archive
 	 * @returns {{name: string, value: Object.<string, Object>}}
 	 *     a named compound
 	 *
@@ -461,9 +532,8 @@
 	 * // -> { name: 'My Level',
 	 * //      value: { foo: { type: int, value: 42 },
 	 * //               bar: { type: string, value: 'Hi!' }}} */
-	this.parseUncompressed = function(data) {
-		var buffer = new Buffer(data);
-		var reader = new nbt.Reader(buffer);
+	nbt.parseUncompressed = function(data) {
+		var reader = new nbt.Reader(data);
 
 		var type = reader.byte();
 		if (type !== nbt.tagTypes.compound) {
@@ -489,7 +559,7 @@
 	 * called directly from this method. For gzipped files, the
 	 * callback is async.
 	 *
-	 * @param {Buffer} data - gzipped or uncompressed data
+	 * @param {ArrayBuffer|Buffer} data - gzipped or uncompressed data
 	 * @param {parseCallback} callback
 	 *
 	 * @see module:nbt.parseUncompressed
@@ -503,19 +573,22 @@
 	 *     console.log(result.name);
 	 *     console.log(result.value.foo);
 	 * }); */
-	this.parse = function(data, callback) {
+	nbt.parse = function(data, callback) {
 		var self = this;
 
-		if (hasGzipHeader(data)) {
+		if (!hasGzipHeader(data)) {
+			callback(null, self.parseUncompressed(data));
+		} else if (!zlib) {
+			callback('NBT archive is compressed but zlib is not available',
+				null);
+		} else {
 			zlib.gunzip(data, function(error, uncompressed) {
 				if (error) {
-					callback(error, data);
+					callback(error, null);
 				} else {
 					callback(null, self.parseUncompressed(uncompressed));
 				}
 			});
-		} else {
-			callback(null, self.parseUncompressed(data));
 		}
 	};
-}).apply(exports || (window.nbt = {}));
+}).apply(typeof exports !== 'undefined' ? exports : (window.nbt = {}));
