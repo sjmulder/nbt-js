@@ -12,7 +12,7 @@
   "main": "nbt",
   "repository": {
     "type": "git",
-    "url": "https://github.com/prismarinejs/prismarine-nbt.git"
+    "url": "https://github.com/sjmulder/¿½nbt-js.git"
   },
   "engines": [
     "node >=0.10"
