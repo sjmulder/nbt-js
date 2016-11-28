@@ -32,11 +32,11 @@ Tag names are copied verbatim, and as some names are not valid JavaScript names,
 Development and testing
 -----------------------
 
-[Grunt](http://gruntjs.com) is used as a task runner:
 ```bash
-grunt jshint  # Check code quality
-grunt test    # Run tests
-grunt watch   # Do the above two on every file change
+npm install  # Install development dependencies
+make check   # Check code quality with jshint and run tests
+make watch   # Automatically runs 'make check' every few seconds
+make clean   # Remove generated files
 ```
 
 Copyright
