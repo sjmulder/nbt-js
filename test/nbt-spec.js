@@ -28,13 +28,8 @@ describe('nbt.parse', function() {
 
 	it('parses a compressed NBT file', function(done) {
 		fs.readFile('sample/bigtest.nbt.gz', function(error, data) {
-			if (error) {
-				throw error;
-			}
+			if (error) { throw error; }
 			nbt.parse(data, function(err, data) {
-				if (err) {
-					throw error;
-				}
 				checkBigtest(data);
 				done();
 			});
@@ -43,13 +38,9 @@ describe('nbt.parse', function() {
 
 	it('parses an uncompressed NBT file through parse()', function(done) {
 		fs.readFile('sample/bigtest.nbt', function(error, data) {
-			if (error) {
-				throw error;
-			}
+			if (error) { throw error; }
 			nbt.parse(data, function(error, data) {
-				if (error) {
-					throw error;
-				}
+				if (error) { throw error; }
 				checkBigtest(data);
 				done();
 			});
