@@ -3,6 +3,7 @@
 		"window": true,
 		"exports": true,
 		"require": true,
+		"Buffer": true,
 		"ArrayBuffer": true,
 		"DataView": true,
 		"Uint8Array": true

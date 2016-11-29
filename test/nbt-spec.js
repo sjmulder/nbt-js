@@ -30,6 +30,19 @@ describe('nbt.parse', function() {
 		fs.readFile('sample/bigtest.nbt.gz', function(error, data) {
 			if (error) { throw error; }
 			nbt.parse(data, function(err, data) {
+				if (err) { throw err; }
+				checkBigtest(data);
+				done();
+			});
+		});
+	});
+
+	it('parses a compressed NBT ArrayBuffer', function(done) {
+		fs.readFile('sample/bigtest.nbt.gz', function(error, data) {
+			if (error) { throw error; }
+			var buffer = data.buffer;
+			nbt.parse(buffer, function(err, data) {
+				if (err) { throw err; }
 				checkBigtest(data);
 				done();
 			});

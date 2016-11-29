@@ -66,7 +66,8 @@
 	})();
 
 	function hasGzipHeader(data) {
-		return data[0] === 0x1f && data[1] === 0x8b;
+		var head = new Uint8Array(data.slice(0, 2));
+		return head.length === 2 && head[0] === 0x1f && head[1] === 0x8b;
 	}
 
 	function encodeUTF8(str) {
@@ -559,6 +560,10 @@
 	 * called directly from this method. For gzipped files, the
 	 * callback is async.
 	 *
+	 * For use in the browser, window.zlib must be defined to decode
+	 * compressed archives. It will be passed a Buffer if the type is
+	 * available, or an Uint8Array otherwise.
+	 *
 	 * @param {ArrayBuffer|Buffer} data - gzipped or uncompressed data
 	 * @param {parseCallback} callback
 	 *
@@ -582,7 +587,20 @@
 			callback('NBT archive is compressed but zlib is not available',
 				null);
 		} else {
-			zlib.gunzip(data, function(error, uncompressed) {
+			/* zlib.gunzip take a Buffer, at least in Node, so try to convert
+			   if possible. */
+			var buffer;
+			if (data.length) {
+				buffer = data;
+			} else if (typeof Buffer !== 'undefined') {
+				buffer = new Buffer(data);
+			} else {
+				/* In the browser? Unknown zlib library. Let's settle for
+				   Uint8Array and see what happens. */
+				buffer = new Uint8Array(data);
+			}
+
+			zlib.gunzip(buffer, function(error, uncompressed) {
 				if (error) {
 					callback(error, null);
 				} else {
