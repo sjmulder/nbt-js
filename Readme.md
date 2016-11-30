@@ -37,7 +37,7 @@ Development and testing
 npm install  # Install development dependencies
 make check   # Check code quality with jshint and run tests
 make watch   # Automatically runs 'make check' every few seconds
-make doc     # Regenerate the documentation in doc/
+make doc     # Regenerate the documentation in docs/
 ```
 
 Copyright
