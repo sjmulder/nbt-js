@@ -16,8 +16,8 @@ check:
 	$(JSTEST) $(TEST_SRC)
 
 doc:
-	rm -rf doc/
-	$(JSDOC) -d doc/ Readme.md nbt.js
+	rm -rf docs/
+	$(JSDOC) -d docs/ Readme.md nbt.js
 
 watch:
 	while true; do clear; $(MAKE) check; sleep 4; done
