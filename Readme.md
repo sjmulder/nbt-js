@@ -30,7 +30,7 @@ If the data is gzipped, it is automatically decompressed first. When running in 
 Tag names are copied verbatim, and as some names are not valid JavaScript names, use of the indexer may be required – such as with the nested compound test in the example above.
 
 
-API Documentation
+API documentation
 -----------------
 
 The full documentation generated with JSDoc is available in the docs/ directory and online:
