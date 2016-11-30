@@ -5,7 +5,7 @@ JSDOC  = node_modules/.bin/jsdoc
 
 TEST_SRC = test/*.js
 
-.PHONY: check doc watch clean
+.PHONY: check doc watch
 
 all:
 	@echo "Run 'make check' to lint and run tests."
@@ -16,10 +16,8 @@ check:
 	$(JSTEST) $(TEST_SRC)
 
 doc:
+	rm -rf doc/
 	$(JSDOC) -d doc/ Readme.md nbt.js
 
 watch:
 	while true; do clear; $(MAKE) check; sleep 4; done
-
-clean:
-	rm -rf doc/
