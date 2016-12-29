@@ -1,4 +1,6 @@
-NBT.js [![Build Status](https://travis-ci.org/sjmulder/nbt-js.png?branch=master)](https://travis-ci.org/sjmulder/nbt-js)
+NBT.js [![Build Status](
+https://travis-ci.org/sjmulder/nbt-js.png?branch=master)](
+https://travis-ci.org/sjmulder/nbt-js)
 ======
 
 By Sijmen Mulder and a host of wonderful contributors.

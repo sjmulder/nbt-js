@@ -69,7 +69,8 @@ A merge and slight rework of the terrific improvements by the people at
  * Improvement: when the root node is a compound with no name, only the value
    is returned.
  * Improvement: better documentation.
- * Improvement: when an error occurs, an Error is thrown rather than as string.
+ * Improvement: when an error occurs, an Error is thrown rather than as
+   string.
 
 0.1.0
 -----
