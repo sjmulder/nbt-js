@@ -218,6 +218,12 @@
 		this[nbt.tagTypes.byte] = write.bind(this, 'Int8', 1);
 
 		/**
+		 * @method module:nbt.Writer#ubyte
+		 * @param {number} value - an unsigned byte
+		 * @returns {module:nbt.Writer} itself */
+		this.ubyte = write.bind(this, 'Uint8', 1);
+
+		/**
 		 * @method module:nbt.Writer#short
 		 * @param {number} value - a signed 16-bit integer
 		 * @returns {module:nbt.Writer} itself */
@@ -377,6 +383,11 @@
 		 * @method module:nbt.Reader#byte
 		 * @returns {number} the read byte */
 		this[nbt.tagTypes.byte] = read.bind(this, 'Int8', 1);
+
+		/**
+		 * @method module:nbt.Reader#byte
+		 * @returns {number} the read unsigned byte */
+		this.ubyte = read.bind(this, 'Uint8', 1);
 
 		/**
 		 * @method module:nbt.Reader#short

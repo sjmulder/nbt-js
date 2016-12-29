@@ -15,6 +15,13 @@ describe('nbt.Reader', function() {
 		expect(reader.byte()).to.equal(-127);
 	});
 
+	it('reads 8-bit unsigned bytes', function() {
+		var reader = new nbt.Reader(new Buffer([0, 127, 255]));
+		expect(reader.ubyte()).to.equal(0);
+		expect(reader.ubyte()).to.equal(127);
+		expect(reader.ubyte()).to.equal(255);
+	});
+
 	it('reads 16-bit shorts', function() {
 		var reader = new nbt.Reader(new Buffer([
 			0,0, 0,255, -127,255

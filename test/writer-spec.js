@@ -20,6 +20,18 @@ describe('nbt.Writer', function() {
 			]));
 	});
 
+	it('writes 8-bit unsigned bytes', function() {
+		var writer = new nbt.Writer();
+		writer.ubyte(0);
+		writer.ubyte(127);
+		writer.ubyte(255);
+
+		expect(new Uint8Array(writer.getData())).to.deep.equal(
+			new Uint8Array([
+				0, 127, 255
+			]));
+	});
+
 	it('writes 16-bit shorts', function() {
 		var writer = new nbt.Writer();
 		writer.short(0);
