@@ -228,7 +228,7 @@
 		 * @param {number} value - a signed 16-bit integer
 		 * @returns {module:nbt.Writer} itself */
 		this[nbt.tagTypes.short] = write.bind(this, 'Int16', 2);
- 
+
 		/**
 		 * @method module:nbt.Writer#int
 		 * @param {number} value - a signed 32-bit integer
