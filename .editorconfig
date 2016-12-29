@@ -4,6 +4,19 @@ root = true
 trim_trailing_whitespace = true
 insert_final_newline = true
 
-[*.{js,html}]
+[Makefile]
+indent_style = tab
+indent_size = 8
+max_line_length = 78
+
+[{nbt.js,test/*.js}]
 indent_style = tab
 indent_size = 4
+max_line_length = 78
+
+[*.md]
+max_line_length = 78
+
+[{package.json,.travis.yml}]
+indent_style = space
+indent_size = 2
