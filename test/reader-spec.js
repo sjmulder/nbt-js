@@ -98,8 +98,10 @@ describe('nbt.Reader', function() {
 			8, 0,0,0,2, 0,5, 0x48,0x65,0x6C,0x6C,0x6F,
 			            0,5, 0x57,0x6F,0x72,0x6C,0x64
 		]));
-		expect(reader.list()).to.deep.equal({ type: "byte", value: [1, 2, 3] });
-		expect(reader.list()).to.deep.equal({ type: "string", value: ['Hello', 'World'] });
+		expect(reader.list()).to.deep.equal(
+			{ type: "byte", value: [1, 2, 3] });
+		expect(reader.list()).to.deep.equal(
+			{ type: "string", value: ['Hello', 'World'] });
 	});
 
 	it('reads compounds', function() {

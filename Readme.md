@@ -3,13 +3,16 @@ NBT.js [![Build Status](https://travis-ci.org/sjmulder/nbt-js.png?branch=master)
 
 By Sijmen Mulder and a host of wonderful contributors.
 
-NBT.js is a JavaScript parser and serializer for [NBT](http://wiki.vg/NBT) archives, for use with [Node.js](http://nodejs.org/) or the browser.
+NBT.js is a JavaScript parser and serializer for [NBT](http://wiki.vg/NBT)
+archives, for use with [Node.js](http://nodejs.org/) or the browser.
 
 
 Usage
 -----
 
-After `var nbt = require('nbt')` or `<script src="nbt.js"></script>`, you can use `nbt.parse(data, callback)` to convert NBT data into a regular JavaScript object.
+After `var nbt = require('nbt')` or `<script src="nbt.js"></script>`, you can
+use `nbt.parse(data, callback)` to convert NBT data into a regular JavaScript
+object.
 
 ```js
 var fs = require('fs'),
@@ -25,15 +28,19 @@ fs.readFile('bigtest.nbt', function(error, data) {
 });
 ```
 
-If the data is gzipped, it is automatically decompressed first. When running in the browser, `window.zlib` is required for this to work.
+If the data is gzipped, it is automatically decompressed first. When running
+in the browser, `window.zlib` is required for this to work.
 
-Tag names are copied verbatim, and as some names are not valid JavaScript names, use of the indexer may be required – such as with the nested compound test in the example above.
+Tag names are copied verbatim, and as some names are not valid JavaScript
+names, use of the indexer may be required – such as with the nested
+compound test in the example above.
 
 
 API documentation
 -----------------
 
-The full documentation generated with JSDoc is available in the docs/ directory and online:
+The full documentation generated with JSDoc is available in the docs/
+directory and online:
 
 http://sjmulder.github.io/nbt-js/
 
@@ -51,6 +58,9 @@ make doc     # Regenerate the documentation in docs/
 Copyright
 ---------
 
-I, the copyright holder of this work, hereby release it into the public domain. This applies worldwide.
+I, the copyright holder of this work, hereby release it into the public
+domain. This applies worldwide.
 
-In case this is not legally possible: I grant anyone the right to use this work for any purpose, without any conditions, unless such conditions are required by law.
+In case this is not legally possible: I grant anyone the right to use this
+work for any purpose, without any conditions, unless such conditions are
+required by law.

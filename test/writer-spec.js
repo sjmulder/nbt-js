@@ -14,9 +14,10 @@ describe('nbt.Writer', function() {
 		writer.byte(127);
 		writer.byte(-127);
 
-		expect(new Uint8Array(writer.getData())).to.deep.equal(new Uint8Array([
-			0, 127, 129
-		]));
+		expect(new Uint8Array(writer.getData())).to.deep.equal(
+			new Uint8Array([
+				0, 127, 129
+			]));
 	});
 
 	it('writes 16-bit shorts', function() {
@@ -25,11 +26,12 @@ describe('nbt.Writer', function() {
 		writer.short(255);
 		writer.short((-127 << 8) | 255);
 
-		expect(new Uint8Array(writer.getData())).to.deep.equal(new Uint8Array([
-			0, 0,
-			0, 255,
-			129, 255
-		]));
+		expect(new Uint8Array(writer.getData())).to.deep.equal(
+			new Uint8Array([
+				0, 0,
+				0, 255,
+				129, 255
+			]));
 	});
 
 	it('writes 32-bit ints', function() {
@@ -38,11 +40,12 @@ describe('nbt.Writer', function() {
 		writer.int(255);
 		writer.int(-127 << 24);
 
-		expect(new Uint8Array(writer.getData())).to.deep.equal(new Uint8Array([
-			0, 0, 0, 0,
-			0, 0, 0, 255,
-			129, 0, 0, 0
-		]));
+		expect(new Uint8Array(writer.getData())).to.deep.equal(
+			new Uint8Array([
+				0, 0, 0, 0,
+				0, 0, 0, 255,
+				129, 0, 0, 0
+			]));
 	});
 
 	it('writes 64-bit longs', function() {
@@ -51,11 +54,12 @@ describe('nbt.Writer', function() {
 		writer.long([0, 255]);
 		writer.long([-127 << 24, 0]);
 
-		expect(new Uint8Array(writer.getData())).to.deep.equal(new Uint8Array([
-			0, 0, 0, 0, 0, 0, 0, 0,
-			0, 0, 0, 0, 0, 0, 0, 255,
-			129, 0, 0, 0, 0, 0, 0, 0
-		]));
+		expect(new Uint8Array(writer.getData())).to.deep.equal(
+			new Uint8Array([
+				0, 0, 0, 0, 0, 0, 0, 0,
+				0, 0, 0, 0, 0, 0, 0, 255,
+				129, 0, 0, 0, 0, 0, 0, 0
+			]));
 	});
 
 	it('writes 32-bit floats', function() {
@@ -63,10 +67,11 @@ describe('nbt.Writer', function() {
 		writer.float(0);
 		writer.float(1);
 
-		expect(new Uint8Array(writer.getData())).to.deep.equal(new Uint8Array([
-			0x00, 0x00, 0x00, 0x00,
-			0x3F, 0x80, 0x00, 0x00
-		]));
+		expect(new Uint8Array(writer.getData())).to.deep.equal(
+			new Uint8Array([
+				0x00, 0x00, 0x00, 0x00,
+				0x3F, 0x80, 0x00, 0x00
+			]));
 	});
 
 	it('writes 64-bit doubles', function() {
@@ -74,10 +79,11 @@ describe('nbt.Writer', function() {
 		writer.double(0);
 		writer.double(1);
 
-		expect(new Uint8Array(writer.getData())).to.deep.equal(new Uint8Array([
-			0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-			0x3F, 0xF0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-		]));
+		expect(new Uint8Array(writer.getData())).to.deep.equal(
+			new Uint8Array([
+				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+				0x3F, 0xF0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+			]));
 	});
 
 	it('writes 8-bit byte arrays from typed arrays', function() {
@@ -85,10 +91,11 @@ describe('nbt.Writer', function() {
 		writer.byteArray(new Uint8Array([1, 2]));
 		writer.byteArray(new Uint8Array([3,4, 5, 6]));
 
-		expect(new Uint8Array(writer.getData())).to.deep.equal(new Uint8Array([
-			0,0,0,2, 1,2,
-			0,0,0,4, 3,4,5,6
-		]));
+		expect(new Uint8Array(writer.getData())).to.deep.equal(
+			new Uint8Array([
+				0,0,0,2, 1,2,
+				0,0,0,4, 3,4,5,6
+			]));
 	});
 
 	it('writes 8-bit byte arrays from plain arrays', function() {
@@ -96,10 +103,11 @@ describe('nbt.Writer', function() {
 		writer.byteArray([1, 2]);
 		writer.byteArray([3,4, 5, 6]);
 
-		expect(new Uint8Array(writer.getData())).to.deep.equal(new Uint8Array([
-			0,0,0,2, 1,2,
-			0,0,0,4, 3,4,5,6
-		]));
+		expect(new Uint8Array(writer.getData())).to.deep.equal(
+			new Uint8Array([
+				0,0,0,2, 1,2,
+				0,0,0,4, 3,4,5,6
+			]));
 	});
 
 	it('writes 32-bit int arrays', function() {
@@ -107,10 +115,11 @@ describe('nbt.Writer', function() {
 		writer.intArray([1, 2]);
 		writer.intArray([3,4, 5, 6]);
 
-		expect(new Uint8Array(writer.getData())).to.deep.equal(new Uint8Array([
-			0,0,0,2, 0,0,0,1, 0,0,0,2,
-			0,0,0,4, 0,0,0,3, 0,0,0,4, 0,0,0,5, 0,0,0,6,
-		]));
+		expect(new Uint8Array(writer.getData())).to.deep.equal(
+			new Uint8Array([
+				0,0,0,2, 0,0,0,1, 0,0,0,2,
+				0,0,0,4, 0,0,0,3, 0,0,0,4, 0,0,0,5, 0,0,0,6,
+			]));
 	});
 
 	it('writes strings', function() {
@@ -118,11 +127,12 @@ describe('nbt.Writer', function() {
 		writer.string('Hello!');
 		writer.string('こんにちは!');
 
-		expect(new Uint8Array(writer.getData())).to.deep.equal(new Uint8Array([
-			0,6,  0x48,0x65,0x6C,0x6C,0x6F,0x21,
-			0,16, 0xE3,0x81,0x93,0xE3,0x82,0x93,0xE3,0x81,
-			      0xAB,0xE3,0x81,0xA1,0xE3,0x81,0xAF,0x21
-		]));
+		expect(new Uint8Array(writer.getData())).to.deep.equal(
+			new Uint8Array([
+				0,6,  0x48,0x65,0x6C,0x6C,0x6F,0x21,
+				0,16, 0xE3,0x81,0x93,0xE3,0x82,0x93,0xE3,0x81,
+					  0xAB,0xE3,0x81,0xA1,0xE3,0x81,0xAF,0x21
+			]));
 	});
 
 	it('writes lists', function() {
@@ -130,11 +140,12 @@ describe('nbt.Writer', function() {
 		writer.list({ type: "byte", value: [1, 2, 3] });
 		writer.list({ type: "string", value: ['Hello', 'World'] });
 
-		expect(new Uint8Array(writer.getData())).to.deep.equal(new Uint8Array([
-			1, 0,0,0,3, 1, 2, 3,
-			8, 0,0,0,2, 0,5, 0x48,0x65,0x6C,0x6C,0x6F,
-			            0,5, 0x57,0x6F,0x72,0x6C,0x64
-		]));
+		expect(new Uint8Array(writer.getData())).to.deep.equal(
+			new Uint8Array([
+				1, 0,0,0,3, 1, 2, 3,
+				8, 0,0,0,2, 0,5, 0x48,0x65,0x6C,0x6C,0x6F,
+				            0,5, 0x57,0x6F,0x72,0x6C,0x64
+			]));
 	});
 
 	it('writes compounds', function() {
@@ -149,13 +160,14 @@ describe('nbt.Writer', function() {
 			cc: { type: "byte", value: 2 }
 		});
 
-		expect(new Uint8Array(writer.getData())).to.deep.equal(new Uint8Array([
-			1, 0,2, 0x61,0x61, 1,
-			9, 0,2, 0x62,0x62, 1, 0,0,0,3, 1, 2, 3,
-			0,
-			1, 0,2, 0x63,0x63, 2,
-			0
-		]));
+		expect(new Uint8Array(writer.getData())).to.deep.equal(
+			new Uint8Array([
+				1, 0,2, 0x61,0x61, 1,
+				9, 0,2, 0x62,0x62, 1, 0,0,0,3, 1, 2, 3,
+				0,
+				1, 0,2, 0x63,0x63, 2,
+				0
+			]));
 	});
 	
 	it('tracks the number of bytes written', function() {
@@ -172,9 +184,10 @@ describe('nbt.Writer', function() {
 		writer.offset = 1;
 		writer.short(0x5678);
 
-		expect(new Uint8Array(writer.getData())).to.deep.equal(new Uint8Array([
-			0x12, 0x56, 0x78
-		]));
+		expect(new Uint8Array(writer.getData())).to.deep.equal(
+			new Uint8Array([
+				0x12, 0x56, 0x78
+			]));
 	});
 
 	it('can seek to a location beyond the buffer', function() {

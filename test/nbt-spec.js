@@ -70,7 +70,8 @@ describe('nbt.write', function() {
 
 			var input = require('../sample/bigtest');
 			var output = nbt.writeUncompressed(input);
-			expect(new Uint8Array(output)).to.deep.equal(new Uint8Array(nbtdata));
+			expect(new Uint8Array(output)).to.deep.equal(
+				new Uint8Array(nbtdata));
 			done();
 		});
 	});
@@ -79,6 +80,7 @@ describe('nbt.write', function() {
 		var input = require('../sample/bigtest');
 		var output = nbt.writeUncompressed(input);
 		var decodedOutput = nbt.parseUncompressed(output);
-		expect(new Uint8Array(decodedOutput)).to.deep.equal(new Uint8Array(input));
+		expect(new Uint8Array(decodedOutput)).to.deep.equal(
+			new Uint8Array(input));
 	});
 });
