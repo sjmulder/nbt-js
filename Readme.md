@@ -1,5 +1,4 @@
-NBT.js [![Build Status](
-https://travis-ci.org/sjmulder/nbt-js.png?branch=master)](
+NBT.js [![Build Status](https://travis-ci.org/sjmulder/nbt-js.png)](
 https://travis-ci.org/sjmulder/nbt-js)
 ======
 
