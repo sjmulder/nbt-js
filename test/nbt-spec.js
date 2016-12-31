@@ -26,28 +26,34 @@ describe('nbt.parse', function() {
 		});
 	}
 
-	it('parses a compressed NBT file', function(done) {
-		fs.readFile('sample/bigtest.nbt.gz', function(error, data) {
-			if (error) { throw error; }
-			nbt.parse(data, function(err, data) {
-				if (err) { throw err; }
-				checkBigtest(data);
-				done();
+	if (typeof zlib !== 'undefined') {
+		it('parses a compressed NBT file', function(done) {
+			fs.readFile('sample/bigtest.nbt.gz', function(error, data) {
+				if (error) { throw error; }
+				nbt.parse(data, function(err, data) {
+					if (err) { throw err; }
+					checkBigtest(data);
+					done();
+				});
 			});
 		});
-	});
+	}
 
-	it('parses a compressed NBT ArrayBuffer', function(done) {
-		fs.readFile('sample/bigtest.nbt.gz', function(error, data) {
-			if (error) { throw error; }
-			var buffer = data.buffer;
-			nbt.parse(buffer, function(err, data) {
-				if (err) { throw err; }
-				checkBigtest(data);
-				done();
+	if (typeof zlib !== 'undefined' && typeof Buffer !== 'undefined') {
+		/* Only applicable on Node where fs.readFile returns a Buffer object
+		   which has an ArrayBuffer .buffer attribute. */
+		it('parses a compressed NBT ArrayBuffer', function(done) {
+			fs.readFile('sample/bigtest.nbt.gz', function(error, data) {
+				if (error) { throw error; }
+				var buffer = data.buffer;
+				nbt.parse(buffer, function(err, data) {
+					if (err) { throw err; }
+					checkBigtest(data);
+					done();
+				});
 			});
 		});
-	});
+	}
 
 	it('parses an uncompressed NBT file through parse()', function(done) {
 		fs.readFile('sample/bigtest.nbt', function(error, data) {
@@ -63,24 +69,31 @@ describe('nbt.parse', function() {
 
 describe('nbt.write', function() {
 	it('writes an uncompressed NBT file', function(done) {
-		fs.readFile('sample/bigtest.nbt', function(err, nbtdata) {
-			if (err) {
-				throw err;
-			}
+		fs.readFile('sample/bigtest.nbt', function(error, nbtData) {
+			if (error) { throw error; }
 
-			var input = require('../sample/bigtest');
-			var output = nbt.writeUncompressed(input);
-			expect(new Uint8Array(output)).to.deep.equal(
-				new Uint8Array(nbtdata));
-			done();
+			fs.readFile('sample/bigtest.json', 'utf8',
+					function(error, jsonStr) {
+				if (error) { throw error; }
+
+				var input = JSON.parse(jsonStr);
+				var output = nbt.writeUncompressed(input);
+				expect(new Uint8Array(output)).to.deep.equal(
+					new Uint8Array(nbtData));
+				done();
+			});
 		});
 	});
 
 	it('re-encodes it input perfectly', function() {
-		var input = require('../sample/bigtest');
-		var output = nbt.writeUncompressed(input);
-		var decodedOutput = nbt.parseUncompressed(output);
-		expect(new Uint8Array(decodedOutput)).to.deep.equal(
-			new Uint8Array(input));
+		fs.readFile('sample/bigtest.json', 'utf8', function(error, jsonStr) {
+			if (error) { throw error; }
+
+			var input = JSON.parse(jsonStr);
+			var output = nbt.writeUncompressed(input);
+			var decodedOutput = nbt.parseUncompressed(output);
+			expect(new Uint8Array(decodedOutput)).to.deep.equal(
+				new Uint8Array(input));
+		});
 	});
 });

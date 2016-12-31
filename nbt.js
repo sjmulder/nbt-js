@@ -127,6 +127,16 @@
 		return String.fromCharCode.apply(null, codepoints);
 	}
 
+	/* Not all environments, in particular PhantomJS, supply
+	   Uint8Array.slice() */
+	function sliceUint8Array(array, begin, end) {
+		if ('slice' in array) {
+			return array.slice(begin, end);
+		} else {
+			return new Uint8Array([].slice.call(array, begin, end));
+		}
+	}
+
 	/**
 	 * In addition to the named writing methods documented below,
 	 * the same methods are indexed by the NBT type number as well,
@@ -453,7 +463,8 @@
 		 * @returns {string} the read string */
 		this[nbt.tagTypes.string] = function() {
 			var length = this.short();
-			var slice = arrayView.slice(this.offset, this.offset + length);
+			var slice = sliceUint8Array(arrayView, this.offset,
+				this.offset + length);
 			this.offset += length;
 			return decodeUTF8(slice);
 		};
