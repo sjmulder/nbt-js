@@ -1,6 +1,17 @@
 Changelog
 =========
 
+0.7.0
+-----
+
+ * Feature: browser support, simply include nbt.js as-is.
+ * Feature: new Reader/Writer.ubyte() for unsigned bytes.
+ * Improvement: JSDoc documentation added.
+ * Improvement: updated dependencies and upgraded to Node 6.
+ * Improvement: simplified build by using make instead of grunt.
+ * Improvement: added .editorconfig.
+ * Improvement: automated code style checking with eclint.
+
 0.6.0
 -----
 
