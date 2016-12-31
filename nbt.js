@@ -14,13 +14,13 @@
 	'use strict';
 
 	if (typeof ArrayBuffer === 'undefined') {
-		throw 'Missing required type ArrayBuffer';
+		throw new Error('Missing required type ArrayBuffer');
 	}
 	if (typeof DataView === 'undefined') {
-		throw 'Missing required type DataView';
+		throw new Error('Missing required type DataView');
 	}
 	if (typeof Uint8Array === 'undefined') {
-		throw 'Missing required type Uint8Array';
+		throw new Error('Missing required type Uint8Array');
 	}
 
 	/** @exports nbt */
@@ -595,8 +595,8 @@
 		if (!hasGzipHeader(data)) {
 			callback(null, self.parseUncompressed(data));
 		} else if (!zlib) {
-			callback('NBT archive is compressed but zlib is not available',
-				null);
+			callback(new Error('NBT archive is compressed but zlib is not ' +
+				'available'), null);
 		} else {
 			/* zlib.gunzip take a Buffer, at least in Node, so try to convert
 			   if possible. */
