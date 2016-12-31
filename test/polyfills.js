@@ -57,22 +57,15 @@
 		   </script>
 	*/
 	window.fs = {};
-	window.fs.readFile = function(filename, encodingOrCallback, callback) {
-		var encoding = null;
-		if (!callback) {
-			callback = encodingOrCallback;
-		} else {
-			encoding = encodingOrCallback;
-		}
-
+	window.fs.readFileSync = function(filename, encoding) {
 		var data = window[filename];
 		if (!data) {
-			callback('Tried to load unregistered file: ' +
-				filename, null);
+			throw new Error('Unregistered file for readFileSync polyfill: ' +
+				filename);
 		} else if (encoding === 'utf8') {
-			callback(null, decodeUTF8(new Uint8Array(data)));
+			return decodeUTF8(new Uint8Array(data));
 		} else {
-			callback(null, data);
+			return data;
 		}
 	};
 })();
