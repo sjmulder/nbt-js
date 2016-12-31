@@ -11,6 +11,7 @@ Changelog
  * Improvement: simplified build by using make instead of grunt.
  * Improvement: added .editorconfig.
  * Improvement: automated code style checking with eclint.
+ * Improvement: automatic NPM deployments with Travis CI.
 
 0.6.0
 -----
