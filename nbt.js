@@ -361,6 +361,8 @@
 	 * int y = reader[3]();
 	 * int z = reader[nbt.tagTypes.int](); */
 	nbt.Reader = function(buffer) {
+		if (!buffer) { throw new Error('Argument "buffer" is falsy'); }
+
 		var self = this;
 
 		/**
@@ -522,6 +524,8 @@
 	 *     }
 	 * }); */
 	nbt.writeUncompressed = function(value) {
+		if (!value) { throw new Error('Argument "value" is falsy'); }
+
 		var writer = new nbt.Writer();
 
 		writer.byte(nbt.tagTypes.compound);
@@ -545,6 +549,8 @@
 	 * //      value: { foo: { type: int, value: 42 },
 	 * //               bar: { type: string, value: 'Hi!' }}} */
 	nbt.parseUncompressed = function(data) {
+		if (!data) { throw new Error('Argument "data" is falsy'); }
+
 		var reader = new nbt.Reader(data);
 
 		var type = reader.byte();
@@ -590,6 +596,8 @@
 	 *     console.log(result.value.foo);
 	 * }); */
 	nbt.parse = function(data, callback) {
+		if (!data) { throw new Error('Argument "data" is falsy'); }
+
 		var self = this;
 
 		if (!hasGzipHeader(data)) {
