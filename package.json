@@ -22,7 +22,8 @@
     "eclint": "^1.1.5",
     "jsdoc": "^3.4.3",
     "jshint": "^2.9.4",
-    "mocha": "^3.2.0"
+    "mocha": "^3.2.0",
+    "mocha-phantomjs-core": "^2.1.0"
   },
   "scripts": {
     "test": "make check"

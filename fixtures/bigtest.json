@@ -1,4 +1,4 @@
-module.exports = {
+{
     "name": "Level",
     "value": {
         "longTest": {
@@ -1131,4 +1131,4 @@ module.exports = {
             "value": 0.4931287132182315
         }
     }
-};
+}

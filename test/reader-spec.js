@@ -4,26 +4,26 @@ var nbt = require('../nbt'),
     expect = require('chai').expect;
 
 describe('nbt.Reader', function() {
-	it('is constructed with a buffer array', function() {
-		nbt.Reader(new Buffer([1, 2, 3]));
+	it('is constructed with a Uint8Array', function() {
+		nbt.Reader(new Uint8Array([1, 2, 3]));
 	});
 
 	it('reads 8-bit bytes', function() {
-		var reader = new nbt.Reader(new Buffer([0, 127, -127]));
+		var reader = new nbt.Reader(new Uint8Array([0, 127, -127]));
 		expect(reader.byte()).to.equal(0);
 		expect(reader.byte()).to.equal(127);
 		expect(reader.byte()).to.equal(-127);
 	});
 
 	it('reads 8-bit unsigned bytes', function() {
-		var reader = new nbt.Reader(new Buffer([0, 127, 255]));
+		var reader = new nbt.Reader(new Uint8Array([0, 127, 255]));
 		expect(reader.ubyte()).to.equal(0);
 		expect(reader.ubyte()).to.equal(127);
 		expect(reader.ubyte()).to.equal(255);
 	});
 
 	it('reads 16-bit shorts', function() {
-		var reader = new nbt.Reader(new Buffer([
+		var reader = new nbt.Reader(new Uint8Array([
 			0,0, 0,255, -127,255
 		]));
 		expect(reader.short()).to.equal(0);
@@ -32,7 +32,7 @@ describe('nbt.Reader', function() {
 	});
 
 	it('reads 32-bit ints', function() {
-		var reader = new nbt.Reader(new Buffer([
+		var reader = new nbt.Reader(new Uint8Array([
 			0,0,0,0,
 			0,0,0,255,
 			-127,0,0,0
@@ -43,7 +43,7 @@ describe('nbt.Reader', function() {
 	});
 
 	it('reads 64-bit longs', function() {
-		var reader = new nbt.Reader(new Buffer([
+		var reader = new nbt.Reader(new Uint8Array([
 			0,0,0,0,0,0,0,0,
 			0,0,0,0,0,0,0,255,
 			-127,0,0,0,0,0,0,0
@@ -54,7 +54,7 @@ describe('nbt.Reader', function() {
 	});
 
 	it('reads 32-bit floats', function() {
-		var reader = new nbt.Reader(new Buffer([
+		var reader = new nbt.Reader(new Uint8Array([
 			0x00,0x00,0x00,0x00,
 			0x3f,0x80,0x00,0x00
 		]));
@@ -63,7 +63,7 @@ describe('nbt.Reader', function() {
 	});
 
 	it('reads 64-bit doubles', function() {
-		var reader = new nbt.Reader(new Buffer([
+		var reader = new nbt.Reader(new Uint8Array([
 			0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
 			0x3f,0xf0,0x00,0x00,0x00,0x00,0x00,0x00
 		]));
@@ -72,7 +72,7 @@ describe('nbt.Reader', function() {
 	});
 
 	it('reads 8-bit byte arrays', function() {
-		var reader = new nbt.Reader(new Buffer([
+		var reader = new nbt.Reader(new Uint8Array([
 			0,0,0,2, 1,2,
 			0,0,0,4, 3,4,5,6
 		]));
@@ -81,7 +81,7 @@ describe('nbt.Reader', function() {
 	});
 
 	it('reads 32-bit int arrays', function() {
-		var reader = new nbt.Reader(new Buffer([
+		var reader = new nbt.Reader(new Uint8Array([
 			0,0,0,2, 0,0,0,1, 0,0,0,2,
 			0,0,0,4, 0,0,0,3, 0,0,0,4, 0,0,0,5, 0,0,0,6,
 		]));
@@ -90,7 +90,7 @@ describe('nbt.Reader', function() {
 	});
 
 	it('reads strings', function() {
-		var reader = new nbt.Reader(new Buffer([
+		var reader = new nbt.Reader(new Uint8Array([
 			0,6,  0x48,0x65,0x6C,0x6C,0x6F,0x21,
 			0,16, 0xE3,0x81,0x93,0xE3,0x82,0x93,0xE3,0x81,
 			      0xAB,0xE3,0x81,0xA1,0xE3,0x81,0xAF,0x21
@@ -100,7 +100,7 @@ describe('nbt.Reader', function() {
 	});
 
 	it('reads lists', function() {
-		var reader = new nbt.Reader(new Buffer([
+		var reader = new nbt.Reader(new Uint8Array([
 			1, 0,0,0,3, 1, 2, 3,
 			8, 0,0,0,2, 0,5, 0x48,0x65,0x6C,0x6C,0x6F,
 			            0,5, 0x57,0x6F,0x72,0x6C,0x64
@@ -112,7 +112,7 @@ describe('nbt.Reader', function() {
 	});
 
 	it('reads compounds', function() {
-		var reader = new nbt.Reader(new Buffer([
+		var reader = new nbt.Reader(new Uint8Array([
 			1, 0,2, 0x61,0x61, 1,
 			9, 0,2, 0x62,0x62, 1, 0,0,0,3, 1, 2, 3,
 			0,
@@ -129,7 +129,7 @@ describe('nbt.Reader', function() {
 	});
 
 	it('tracks the cursor location', function() {
-		var reader = new nbt.Reader(new Buffer([
+		var reader = new nbt.Reader(new Uint8Array([
 			0, 0,0,0,0,0,0,0,0
 		]));
 		expect(reader.offset).to.equal(0);
@@ -139,9 +139,18 @@ describe('nbt.Reader', function() {
 	});
 
 	it('can change the cursor location', function() {
-		var reader = new nbt.Reader(new Buffer([1, 2]));
+		var reader = new nbt.Reader(new Uint8Array([1, 2]));
 		expect(reader.byte()).to.equal(1);
 		reader.offset = 0;
 		expect(reader.byte()).to.equal(1);
 	});
+
+	if (typeof Buffer !== 'undefined') {
+		it('is supports Buffer input', function() {
+			var reader = new nbt.Reader(new Uint8Array([1, 2, 3]));
+			expect(reader.byte()).to.equal(1);
+			expect(reader.byte()).to.equal(2);
+			expect(reader.byte()).to.equal(3);
+		});
+	}
 });

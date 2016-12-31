@@ -26,20 +26,22 @@ describe('nbt.parse', function() {
 		});
 	}
 
-	it('parses a compressed NBT file', function(done) {
-		fs.readFile('sample/bigtest.nbt.gz', function(error, data) {
-			if (error) { throw error; }
+	if (typeof zlib !== 'undefined') {
+		it('parses a compressed NBT file', function(done) {
+			var data = fs.readFileSync('fixtures/bigtest.nbt.gz');
 			nbt.parse(data, function(err, data) {
 				if (err) { throw err; }
 				checkBigtest(data);
 				done();
 			});
 		});
-	});
+	}
 
-	it('parses a compressed NBT ArrayBuffer', function(done) {
-		fs.readFile('sample/bigtest.nbt.gz', function(error, data) {
-			if (error) { throw error; }
+	if (typeof zlib !== 'undefined' && typeof Buffer !== 'undefined') {
+		/* Only applicable on Node where fs.readFile returns a Buffer object
+		   which has an ArrayBuffer .buffer attribute. */
+		it('parses a compressed NBT ArrayBuffer', function(done) {
+			var data = fs.readFileSync('fixtures/bigtest.nbt.gz');
 			var buffer = data.buffer;
 			nbt.parse(buffer, function(err, data) {
 				if (err) { throw err; }
@@ -47,37 +49,31 @@ describe('nbt.parse', function() {
 				done();
 			});
 		});
-	});
+	}
 
 	it('parses an uncompressed NBT file through parse()', function(done) {
-		fs.readFile('sample/bigtest.nbt', function(error, data) {
+		var data = fs.readFileSync('fixtures/bigtest.nbt');
+		nbt.parse(data, function(error, data) {
 			if (error) { throw error; }
-			nbt.parse(data, function(error, data) {
-				if (error) { throw error; }
-				checkBigtest(data);
-				done();
-			});
+			checkBigtest(data);
+			done();
 		});
 	});
 });
 
 describe('nbt.write', function() {
-	it('writes an uncompressed NBT file', function(done) {
-		fs.readFile('sample/bigtest.nbt', function(err, nbtdata) {
-			if (err) {
-				throw err;
-			}
-
-			var input = require('../sample/bigtest');
-			var output = nbt.writeUncompressed(input);
-			expect(new Uint8Array(output)).to.deep.equal(
-				new Uint8Array(nbtdata));
-			done();
-		});
+	it('writes an uncompressed NBT file', function() {
+		var nbtData = fs.readFileSync('fixtures/bigtest.nbt');
+		var jsonStr = fs.readFileSync('fixtures/bigtest.json', 'utf8');
+		var input = JSON.parse(jsonStr);
+		var output = nbt.writeUncompressed(input);
+		expect(new Uint8Array(output)).to.deep.equal(
+			new Uint8Array(nbtData));
 	});
 
 	it('re-encodes it input perfectly', function() {
-		var input = require('../sample/bigtest');
+		var jsonStr = fs.readFileSync('fixtures/bigtest.json', 'utf8');
+		var input = JSON.parse(jsonStr);
 		var output = nbt.writeUncompressed(input);
 		var decodedOutput = nbt.parseUncompressed(output);
 		expect(new Uint8Array(decodedOutput)).to.deep.equal(

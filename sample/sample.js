@@ -3,7 +3,7 @@
 var fs = require('fs'),
 	nbt = require('../nbt');
 
-fs.readFile('bigtest.nbt.gz', function(error, data) {
+fs.readFile('../fixtures/bigtest.nbt.gz', function(error, data) {
 	if (error) {
 		throw error;
 	}

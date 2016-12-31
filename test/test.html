@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>NBT.js test runner</title>
+		<link rel="stylesheet" href="../node_modules/mocha/mocha.css">
+	</head>
+	<body>
+		<div id="mocha"></div>
+		<script src="../node_modules/mocha/mocha.js"></script>
+		<script src="../node_modules/chai/chai.js"></script>
+		<script src="../nbt.js"></script>
+		<script src="../test/polyfills.js"></script>
+		<script src="../fixtures/bigtest.nbt.js"></script>
+		<script src="../fixtures/bigtest.nbt.gz.js"></script>
+		<script src="../fixtures/bigtest.json.js"></script>
+		<script>
+			window['../nbt'] = nbt;
+			mocha.setup('bdd');
+		</script>
+		<script src="../test/nbt-spec.js"></script>
+		<script src="../test/reader-spec.js"></script>
+		<script src="../test/writer-spec.js"></script>
+		<script>
+			mocha.run();
+		</script>
+	</body>
+</html>
