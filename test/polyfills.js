@@ -68,4 +68,16 @@
 			return data;
 		}
 	};
+
+	/* ArrayBuffer.prototype.slice() is missing in PhantomJS < 2.0 but
+	   required for the jsinc files. */
+	if (!('slice' in ArrayBuffer.prototype)) {
+		ArrayBuffer.prototype.slice = function(begin, end) {
+			if (!end) { end = this.byteLength; }
+			if (begin > end) { return new ArrayBuffer(0); }
+			var ret = new ArrayBuffer(end - begin);
+			new Uint8Array(ret).set(new Uint8Array(this, begin, end - begin));
+			return ret;
+		};
+	}
 })();
