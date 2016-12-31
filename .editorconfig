@@ -9,7 +9,7 @@ indent_style = tab
 indent_size = 8
 max_line_length = 78
 
-[{nbt.js,test/*.js}]
+[{nbt.js,sample/*.js,test/*.js}]
 indent_style = tab
 indent_size = 4
 max_line_length = 78

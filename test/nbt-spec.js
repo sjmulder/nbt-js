@@ -28,7 +28,7 @@ describe('nbt.parse', function() {
 
 	if (typeof zlib !== 'undefined') {
 		it('parses a compressed NBT file', function(done) {
-			fs.readFile('sample/bigtest.nbt.gz', function(error, data) {
+			fs.readFile('fixtures/bigtest.nbt.gz', function(error, data) {
 				if (error) { throw error; }
 				nbt.parse(data, function(err, data) {
 					if (err) { throw err; }
@@ -43,7 +43,7 @@ describe('nbt.parse', function() {
 		/* Only applicable on Node where fs.readFile returns a Buffer object
 		   which has an ArrayBuffer .buffer attribute. */
 		it('parses a compressed NBT ArrayBuffer', function(done) {
-			fs.readFile('sample/bigtest.nbt.gz', function(error, data) {
+			fs.readFile('fixtures/bigtest.nbt.gz', function(error, data) {
 				if (error) { throw error; }
 				var buffer = data.buffer;
 				nbt.parse(buffer, function(err, data) {
@@ -56,7 +56,7 @@ describe('nbt.parse', function() {
 	}
 
 	it('parses an uncompressed NBT file through parse()', function(done) {
-		fs.readFile('sample/bigtest.nbt', function(error, data) {
+		fs.readFile('fixtures/bigtest.nbt', function(error, data) {
 			if (error) { throw error; }
 			nbt.parse(data, function(error, data) {
 				if (error) { throw error; }
@@ -69,10 +69,10 @@ describe('nbt.parse', function() {
 
 describe('nbt.write', function() {
 	it('writes an uncompressed NBT file', function(done) {
-		fs.readFile('sample/bigtest.nbt', function(error, nbtData) {
+		fs.readFile('fixtures/bigtest.nbt', function(error, nbtData) {
 			if (error) { throw error; }
 
-			fs.readFile('sample/bigtest.json', 'utf8',
+			fs.readFile('fixtures/bigtest.json', 'utf8',
 					function(error, jsonStr) {
 				if (error) { throw error; }
 
@@ -86,7 +86,8 @@ describe('nbt.write', function() {
 	});
 
 	it('re-encodes it input perfectly', function() {
-		fs.readFile('sample/bigtest.json', 'utf8', function(error, jsonStr) {
+		fs.readFile('fixtures/bigtest.json', 'utf8',
+				function(error, jsonStr) {
 			if (error) { throw error; }
 
 			var input = JSON.parse(jsonStr);

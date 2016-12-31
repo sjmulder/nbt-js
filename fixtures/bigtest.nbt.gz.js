@@ -1,4 +1,4 @@
-; window['sample/bigtest.nbt.gz'] = new Uint32Array([
+; window['fixtures/bigtest.nbt.gz'] = new Uint32Array([
 	/* jsinc-1.0 */
 	0x00088B1F, 0x00000000, 0x54ED0000, 0x411A4FCF, 0x02C27E14, 0xB18296CB,
 	0xCC6310C4, 0xA584B5AB, 0x1142CDDB, 0x1688B189, 0x1A0D9A2C, 0x8631A8D8,

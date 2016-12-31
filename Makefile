@@ -6,8 +6,6 @@ JSTEST    = node_modules/.bin/mocha
 JSDOC     = node_modules/.bin/jsdoc
 ECLINT    = node_modules/.bin/eclint check
 
-TEST_SRC = test/*-spec.js
-
 .PHONY: check doc watch
 
 all:
@@ -15,9 +13,9 @@ all:
 
 check:
 	$(ECLINT) *
-	$(JSLINT) nbt.js test/*.js sample/sample.js
+	$(JSLINT) nbt.js sample/*.js test/*.js
 	cd sample && $(NODE) sample.js > /dev/null
-	$(JSTEST) $(TEST_SRC)
+	$(JSTEST) test/*-spec.js
 	$(PHANTOMJS) $(PHANTOMJS_RUNNER) test/test.html
 
 doc:

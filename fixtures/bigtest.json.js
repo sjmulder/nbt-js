@@ -1,4 +1,4 @@
-; window['sample/bigtest.json'] = new Uint32Array([
+; window['fixtures/bigtest.json'] = new Uint32Array([
 	/* jsinc-1.0 */
 	0x20200A7B, 0x6E222020, 0x22656D61, 0x4C22203A, 0x6C657665, 0x200A2C22,
 	0x22202020, 0x756C6176, 0x203A2265, 0x20200A7B, 0x20202020, 0x6C222020,
