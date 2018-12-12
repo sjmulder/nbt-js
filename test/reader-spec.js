@@ -89,6 +89,15 @@ describe('nbt.Reader', function() {
 		expect(reader.intArray()).to.deep.equal([3, 4, 5, 6]);
 	});
 
+	it('reads 64-bit int arrays', function() {
+		var reader = new nbt.Reader(new Uint8Array([
+			0,0,0,1, 0,0,0,15, 0,0,0,1,
+			0,0,0,2, 16,16,16,16, 32,32,32,32, 1,2,3,4, 5,6,7,8,
+		]));
+		expect(reader.longArray()).to.deep.equal([[15, 1]]);
+		expect(reader.longArray()).to.deep.equal([[269488144, 538976288], [16909060, 84281096]]);
+	});
+
 	it('reads strings', function() {
 		var reader = new nbt.Reader(new Uint8Array([
 			0,6,  0x48,0x65,0x6C,0x6C,0x6F,0x21,

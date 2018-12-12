@@ -59,6 +59,20 @@ describe('nbt.parse', function() {
 			done();
 		});
 	});
+
+	it('parses an NBT file contining a long array', function(done) {
+		var data = fs.readFileSync('fixtures/longArrayTest.nbt.gz');
+		nbt.parse(data, function(error, data) {
+			if (error) { throw error; }
+			expect(data.value).to.deep.equal({
+				LongArray: {
+					type: 'longArray',
+					value: [[1, 15], [538976288, 269488144], [84281096, 16909060]] // should be value: [[15, 1], [269488144, 538976288], [16909060, 84281096]]
+				}
+			});
+			done();
+		});
+	});
 });
 
 describe('nbt.write', function() {
