@@ -134,6 +134,18 @@ describe('nbt.Writer', function() {
 			]));
 	});
 
+	it('writes 64-bit int arrays', function() {
+		var writer = new nbt.Writer();
+		writer.longArray([[15, 1]]);
+		writer.longArray([[269488144, 538976288], [16909060, 84281096]]);
+
+		expect(new Uint8Array(writer.getData())).to.deep.equal(
+			new Uint8Array([
+				0,0,0,1, 0,0,0,15, 0,0,0,1,
+				0,0,0,2, 16,16,16,16, 32,32,32,32, 1,2,3,4, 5,6,7,8,
+			]));
+	});
+
 	it('writes strings', function() {
 		var writer = new nbt.Writer();
 		writer.string('Hello!');

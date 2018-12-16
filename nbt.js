@@ -48,7 +48,8 @@
 		'string': 8,
 		'list': 9,
 		'compound': 10,
-		'intArray': 11
+		'intArray': 11,
+		'longArray': 12
 	};
 
 	/**
@@ -295,6 +296,19 @@
 			}
 			return this;
 		};
+		
+		/**
+		 * @method module:nbt.Writer#longArray
+		 * @param {Array.<number>} value
+		 * @returns {module:nbt.Writer} itself */
+		this[nbt.tagTypes.longArray] = function(value) {
+			this.int(value.length);
+			var i;
+			for (i = 0; i < value.length; i++) {
+				this.long(value[i]);
+			}
+			return this;
+		};
 
 		/**
 		 * @method module:nbt.Writer#string
@@ -456,6 +470,24 @@
 				ints.push(this.int());
 			}
 			return ints;
+		};
+		
+		/**
+		 * As JavaScript does not not natively support 64-bit
+		 * integers, the value is returned as an array of arrays of two
+		 * 32-bit integers, the upper and the lower.
+		 *
+		 * @method module:nbt.Reader#longArray
+		 * @returns {Array.<number>} the read array of 64-bit ints
+		 *     split into [upper, lower] */
+		this[nbt.tagTypes.longArray] = function() {
+			var length = this.int();
+			var longs = [];
+			var i;
+			for (i = 0; i < length; i++) {
+				longs.push(this.long());
+			}
+			return longs;
 		};
 
 		/**
