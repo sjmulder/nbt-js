@@ -1,6 +1,12 @@
 Changelog
 =========
 
+0.8.0 (2018-12-16)
+------------------
+
+ * New: longArray data type (thanks sourcehunter).
+ * Change: dropped linting tools and PhantomJS tests.
+
 0.7.0
 -----
 
