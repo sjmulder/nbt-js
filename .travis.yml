@@ -1,10 +1,3 @@
 language: node_js
 node_js:
 - '10'
-deploy:
-  provider: npm
-  on:
-    tags: true
-  email: ik@sjmulder.nl
-  api_key:
-    secure: bNWco2GUMPVjOZpuZq2RkbOAOqp/WVXAaQ8QrrCcTWXi+HUiKfq9ymVW1ZgjGOd7pL6TfVh4RqN+UmlQgMu0dHdjimwvC+Sb1YlaAbCWlX+zqkAV4KfN62j6jTMAeFr03nNaNeSIOKkZUanwS7wrTT/MoU3gbcWcJm1f1JW5a6o=
