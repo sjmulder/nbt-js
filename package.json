@@ -14,9 +14,6 @@
     "type": "git",
     "url": "https://github.com/sjmulder/nbt-js.git"
   },
-  "engines": [
-    "node >= 6.0.0"
-  ],
   "devDependencies": {
     "chai": "^3.5.0",
     "jsdoc": "^3.4.3",
