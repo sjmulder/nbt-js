@@ -296,7 +296,7 @@
 			}
 			return this;
 		};
-		
+
 		/**
 		 * @method module:nbt.Writer#longArray
 		 * @param {Array.<number>} value
@@ -471,7 +471,7 @@
 			}
 			return ints;
 		};
-		
+
 		/**
 		 * As JavaScript does not not natively support 64-bit
 		 * integers, the value is returned as an array of arrays of two
