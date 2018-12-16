@@ -1,6 +1,6 @@
 {
   "name": "nbt",
-  "version": "0.7.0",
+  "version": "0.8.1",
   "description": "A parser and serializer for NBT archives",
   "keywords": [
     "nbt",
