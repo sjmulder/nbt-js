@@ -28,7 +28,7 @@ nbt.parse(data, function(error, data) {
 ```
 
 If the data is gzipped, it is automatically decompressed first. When running
-in the browser, `window.zlib` is required for this to work.
+in the browser, `window.zlib` or [`window.pako`](https://github.com/nodeca/pako/) is required for this to work.
 
 Tag names are copied verbatim, and as some names are not valid JavaScript
 names, use of the indexer may be required – such as with the nested
@@ -49,7 +49,7 @@ Development and testing
 
 ```bash
 npm install  # Install development dependencies
-make check   # Check code quality with jshint and run tests
+make check   # Run tests
 make watch   # Automatically runs 'make check' every few seconds
 make doc     # Regenerate the documentation in docs/
 ```

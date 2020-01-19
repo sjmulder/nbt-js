@@ -26,7 +26,6 @@
 	/** @exports nbt */
 
 	var nbt = this;
-	var zlib = typeof require !== 'undefined' ? require('zlib') : window.zlib;
 
 	/**
 	 * A mapping from type names to NBT type numbers.
@@ -579,6 +578,38 @@
 	};
 
 	/**
+	 * @param {Object} value - a named compound
+	 * @param {string} value.name - the top-level name
+	 * @param {Object} value.value - a compound
+	 * @param {gzipCallback}
+	 * 
+	 * @see module:nbt.parseCompressed
+	 * @see module:nbt.Writer#compound
+	 * 
+	 * @example
+	 * nbt.writeCompressed({
+	 *     name: 'My Level',
+	 *     value: {
+	 *         foo: { type: int, value: 42 },
+	 *         bar: { type: string, value: 'Hi!' }
+	 *     }
+	 * })
+	 */
+	nbt.writeCompressed = function(value, callback) {
+		if (!nbt.gzip) {
+			callback(new Error('No gzip library available at nbt.gzip'), null);
+		} else {
+			try {
+				var data = nbt.writeUncompressed(value);
+
+				nbt.gzip(data, callback);
+			} catch(error) {
+				callback(error, null);
+			}
+		}
+	};
+
+	/**
 	 * @param {ArrayBuffer|Buffer} data - an uncompressed NBT archive
 	 * @returns {{name: string, value: Object.<string, Object>}}
 	 *     a named compound
@@ -587,7 +618,7 @@
 	 * @see module:nbt.writeUncompressed
 	 *
 	 * @example
-	 * nbt.readUncompressed(buf);
+	 * nbt.parseUncompressed(buf);
 	 * // -> { name: 'My Level',
 	 * //      value: { foo: { type: int, value: 42 },
 	 * //               bar: { type: string, value: 'Hi!' }}} */
@@ -620,7 +651,7 @@
 	 * called directly from this method. For gzipped files, the
 	 * callback is async.
 	 *
-	 * For use in the browser, window.zlib must be defined to decode
+	 * For use in the browser, nbt.unzip must be defined to decode
 	 * compressed archives. It will be passed a Buffer if the type is
 	 * available, or an Uint8Array otherwise.
 	 *
@@ -645,9 +676,8 @@
 
 		if (!hasGzipHeader(data)) {
 			callback(null, self.parseUncompressed(data));
-		} else if (!zlib) {
-			callback(new Error('NBT archive is compressed but zlib is not ' +
-				'available'), null);
+		} else if (!nbt.gunzip) {
+			callback(new Error('No gunzip library available at nbt.gunzip'), null);
 		} else {
 			/* zlib.gunzip take a Buffer, at least in Node, so try to convert
 			   if possible. */
@@ -662,7 +692,7 @@
 				buffer = new Uint8Array(data);
 			}
 
-			zlib.gunzip(buffer, function(error, uncompressed) {
+			nbt.gunzip(buffer, function(error, uncompressed) {
 				if (error) {
 					callback(error, null);
 				} else {
@@ -671,4 +701,264 @@
 			});
 		}
 	};
+
+	/**
+	 * @callback gunzipCallback
+	 * @param {Object} error
+	 * @param {ArrayBuffer|Buffer|Uint8Array} result - uncompressed data */
+
+	/**
+	 * @param {ArrayBuffer|Buffer|Uint8Array} data - gzipped data
+	 * @param {gunzipCallback} callback
+	 */
+	nbt.gunzip = function(data, callback) {};
+	if (typeof require === 'undefined') {
+		if (!window.zlib) {
+			nbt.gunzip = window.zlib.gunzip;
+		} else if (!window.pako) {
+			nbt.gunzip = function(data, callback) {
+				try {
+					callback(null, window.pako.ungzip(data));
+				} catch(error) {
+					callback(error, null);
+				}
+			};
+		} else {
+			nbt.gunzip = null;
+		}
+	} else {
+		nbt.gunzip = require('zlib').gunzip;
+	}
+
+	/**
+	 * @callback gzipCallback
+	 * @param {Object} error
+	 * @param {ArrayBuffer|Buffer|Uint8Array} result - gzipped data */
+
+	/**
+	 * @param {ArrayBuffer|Buffer|Uint8Array} data - uncompressed data
+	 * @param {gzipCallback} callback
+	 */
+	nbt.gzip = function(data, callback) {};
+	if (typeof require === 'undefined') {
+		if (!window.zlib) {
+			nbt.gzip = window.zlib.gzip;
+		} else if (!window.pako) {
+			nbt.gzip = function(data, callback) {
+				try {
+					callback(null, window.pako.gzip(data));
+				} catch(error) {
+					callback(error, null);
+				}
+			};
+		} else {
+			nbt.gzip = null;
+		}
+	} else {
+		nbt.gzip = require('zlib').gzip;
+	}
+
+	/**
+	 * Destructively and recursively remove type and value parameters
+	 * from a named compound object. Using nbt.growCompound will often
+	 * not revert to the same variable types.
+	 * 
+	 * Beware:
+	 * - Bigger datatypes than 32 bits are split into arrays, index 0
+	 * 	 referencing first set of bytes, index 1 referencing next set of
+	 * 	 bytes, etc.
+	 * - Not recommended to use this unless you already know the layout
+	 *   of the compound object.
+	 * - Minecraft sometimes stores unsigned numbers as signed types and
+	 *   you will have to unsign their values yourself by ANDing the bit
+	 * 	 length of the type - 1. (Byte eg. ubyte = byte & 0xff)
+	 * 
+	 * @param {Object} compound - a named compound
+	 * @param {string} compound.name - the top-level name
+	 * @param {Object} compound.value - a compound
+	 * @returns {Object} - a shrinked compound
+	 * 
+	 * @example
+	 * nbt.shrinkCompound({
+	 *     name: 'Top Level',
+	 *     value: {
+	 *         foo: { type: 'int', value: 42 },
+	 *  	   bar: { type: 'compound', value: {
+	 * 		       age: { type: 'byte', value: 22 }
+	 * 		   }}
+	 *     }
+	 * })
+	 * // -> { foo: 42, bar: { age: 22 } }
+	 */
+	nbt.shrinkCompound = function(compound) {
+		if (!compound.value) {
+			return null;
+		}
+
+		if (typeof compound.value === 'string' ||
+			typeof compound.value === 'number') {
+				return compound.value;
+		}
+		
+		if (compound.type === 'byteArray') {
+			return compound.value.map(function(byte) {
+				return byte; // & 0xff;
+			});
+		}
+	
+		if (compound.type === 'longArray') {
+			return compound.value.map(function(value) {
+				return [value[0] , value[1]];
+			});
+		}
+
+		if (compound.type === 'long' ||
+			compound.type === 'double') {
+			return compound.value
+		}
+	
+		if (compound.type === 'list') {
+			if (compound.value.type === 'compound') {
+				return compound.value.value.map(function(object) {
+					return nbt.shrinkCompound({ value:object });
+				});
+			} else {
+				return compound.value.value;
+			}
+		}
+	
+		var shrinkedObject = {};
+		Object.entries(compound.value).forEach(function(entry) {
+			shrinkedObject[entry[0]] = nbt.shrinkCompound(entry[1]);
+		});
+		
+		return shrinkedObject;
+	};
+
+	/**
+	 * Attempts to reconstruct a named compound object from a shrinked
+	 * compound. The method uses the smallest sized number type for every
+	 * number, meaning byte, short, int, long and float, double can be
+	 * different from before nbt.shrinkCompound was used.
+	 * 
+	 * Beware:
+	 * - If shrinkedCompound is bad the output may look close to right
+	 *   even if it is wrong.
+	 * 
+	 * @param {Object} shrinkedCompound - a shrinked compound
+	 * @param {string} shrinkedCompound.name - the top-level name
+	 * @param {Object} shrinkedCompound.value - a compound
+	 * @returns {Object} - a named compound
+	 * 
+	 * @example
+	 * nbt.growCompound({
+	 * 	   foo: 42,
+	 *     bar: {
+	 *         age: 22
+	 *     }
+	 * })
+	 * // -> {
+	 *     name: '',
+	 *     value: {
+	 *         foo: { type: 'byte', value: 42 },
+	 *  	   bar: { type: 'compound', value: {
+	 * 		       age: { type: 'byte', value: 22 }}}}}
+	 */
+	nbt.growCompound = function(shrinkedCompound) {
+		if (typeof shrinkedCompound !== 'object') {
+			return null;
+		}
+
+		return { name:'', value:grow(shrinkedCompound).value };
+	};
+
+	function grow(object) {
+		if (object == null) {
+			return null;
+		}
+
+		if (typeof object === 'string') {
+			return { type:'string', value:object };
+		}
+
+		if (typeof object === 'number') {
+			var type;
+			if (object % 1 === 0) {
+				var numBytes = Math.max(1, Math.ceil(Math.log2(object) / 8));
+				if (numBytes === 1) {
+					type = 'byte';
+				} else if (numBytes <= 2) {
+					type = 'short';
+				} else if (numBytes <= 4) {
+					type = 'int';
+				} else {
+					type = 'long';
+				}
+			} else {
+				if (object % 1 * 1e6 % 1 === 0) {
+					type = 'float';
+				} else {
+					type = 'double';
+				}
+			}
+			return { type:type, value:object };
+		}
+
+		if (object instanceof Array) {
+			if (object.length === 2 &&
+				typeof object[0] === 'number') {
+					// TODO: could be double list?
+					return { type:'long', value:object };
+			} else {
+				var type = 'list', value;
+				if (object.length === 0) {
+					// impossible to know type of array
+					value = { type:'int', value:object };
+				} else {
+					if (object[0] instanceof Array) {
+						// TODO: could be double list?
+						value = { type:'long', value:object }
+					} else if (typeof object[0] === 'object') {
+						value = {
+							type: 'compound',
+							value: object.map(function(obj) {
+								return grow(obj).value;
+							})
+						};
+					} else {
+						var type = grow(object[0]).type;
+						if (type === 'byte' || type === 'int') {
+							var largestValue = object[0];
+							object.forEach(function(value) {
+								if (largestValue < value) {
+									largestValue = value;
+								}
+							});
+							type = grow(largestValue).type;
+							if (type === 'byte') {
+								type = 'byteArray';
+								value = object;
+							} else if (type === 'int') {
+								type = 'intArray';
+								value = object;
+							} else {
+								value = { type:type, value:object };
+							}
+						} else {
+							value = { type:type, value:object };
+						}
+					}
+				}
+				return { type:type, value:value };
+			}
+		}
+
+		var grown = { type:'compound', value:{} };
+
+		Object.entries(object).forEach(function(entry) {
+			grown.value[entry[0]] = grow(entry[1]);
+		});
+
+		return grown;
+	}
 }).apply(typeof exports !== 'undefined' ? exports : (window.nbt = {}));
