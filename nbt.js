@@ -26,7 +26,6 @@
 	/** @exports nbt */
 
 	var nbt = this;
-	var zlib = typeof require !== 'undefined' ? require('zlib') : window.zlib;
 
 	/**
 	 * A mapping from type names to NBT type numbers.
@@ -620,7 +619,7 @@
 	 * called directly from this method. For gzipped files, the
 	 * callback is async.
 	 *
-	 * For use in the browser, window.zlib must be defined to decode
+	 * For use in the browser, nbt.unzip must be defined to decode
 	 * compressed archives. It will be passed a Buffer if the type is
 	 * available, or an Uint8Array otherwise.
 	 *
@@ -645,9 +644,8 @@
 
 		if (!hasGzipHeader(data)) {
 			callback(null, self.parseUncompressed(data));
-		} else if (!zlib) {
-			callback(new Error('NBT archive is compressed but zlib is not ' +
-				'available'), null);
+		} else if (!nbt.gunzip) {
+			callback(new Error('No gunzip library available at nbt.gunzip'), null);
 		} else {
 			/* zlib.gunzip take a Buffer, at least in Node, so try to convert
 			   if possible. */
@@ -662,7 +660,7 @@
 				buffer = new Uint8Array(data);
 			}
 
-			zlib.gunzip(buffer, function(error, uncompressed) {
+			nbt.gunzip(buffer, function(error, uncompressed) {
 				if (error) {
 					callback(error, null);
 				} else {
@@ -671,4 +669,59 @@
 			});
 		}
 	};
+
+	/**
+	 * @callback gunzipCallback
+	 * @param {Object} error
+	 * @param {ArrayBuffer|Buffer|Uint8Array} result - uncompressed data */
+
+	/**
+	 * @param {ArrayBuffer|Buffer|Uint8Array} data - compressed data
+	 * @param {gunzipCallback} callback
+	 */
+	if (typeof require === 'undefined') {
+		if (!window.zlib) {
+			nbt.gunzip = window.zlib.gunzip;
+		} else if (!window.pako) {
+			nbt.gunzip = function(data, callback) {
+				try {
+					callback(null, window.pako.ungzip(data));
+				} catch(error) {
+					callback(error, null);
+				}
+			}
+		} else {
+			nbt.gunzip = null;
+		}
+	} else {
+		nbt.gunzip = require('zlib').gunzip;
+	}
+
+	/**
+	 * @callback gzipCallback
+	 * @param {Object} error
+	 * @param {ArrayBuffer|Buffer|Uint8Array} result - compressed data */
+
+	/**
+	 * @function gzip
+	 * @param {ArrayBuffer|Buffer|Uint8Array} data - uncompressed data
+	 * @param {gzipCallback} callback
+	 */
+	if (typeof require === 'undefined') {
+		if (!window.zlib) {
+			nbt.gzip = window.zlib.gzip;
+		} else if (!window.pako) {
+			nbt.gzip = function(data, callback) {
+				try {
+					callback(null, window.pako.gzip(data));
+				} catch(error) {
+					callback(error, null);
+				}
+			};
+		} else {
+			nbt.gzip = null;
+		}
+	} else {
+		nbt.gzip = require('zlib').gzip;
+	}
 }).apply(typeof exports !== 'undefined' ? exports : (window.nbt = {}));
