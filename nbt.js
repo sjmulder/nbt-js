@@ -581,6 +581,19 @@
 	 * @param {Object} value - a named compound
 	 * @param {string} value.name - the top-level name
 	 * @param {Object} value.value - a compound
+	 * @param {gzipCallback}
+	 * 
+	 * @see module:nbt.parseCompressed
+	 * @see module:nbt.Writer#compound
+	 * 
+	 * @example
+	 * nbt.writeCompressed({
+	 *     name: 'My Level',
+	 *     value: {
+	 *         foo: { type: int, value: 42 },
+	 *         bar: { type: string, value: 'Hi!' }
+	 *     }
+	 * })
 	 */
 	nbt.writeCompressed = function(value, callback) {
 		if (!nbt.gzip) {
@@ -605,7 +618,7 @@
 	 * @see module:nbt.writeUncompressed
 	 *
 	 * @example
-	 * nbt.readUncompressed(buf);
+	 * nbt.parseUncompressed(buf);
 	 * // -> { name: 'My Level',
 	 * //      value: { foo: { type: int, value: 42 },
 	 * //               bar: { type: string, value: 'Hi!' }}} */

@@ -50,9 +50,7 @@
 
 
 <div class="description">
-    In addition to the named writing methods documented below,
-the same methods are indexed by the NBT type number as well,
-as shown in the example below.
+    In addition to the named writing methods documented below,the same methods are indexed by the NBT type number as well,as shown in the example below.
 </div>
 
 
@@ -96,7 +94,7 @@ as shown in the example below.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="nbt.js.html">nbt.js</a>, <a href="nbt.js.html#line387">line 387</a>
+        <a href="nbt.js.html">nbt.js</a>, <a href="nbt.js.html#line386">line 386</a>
     </li></ul></dd>
     
 
@@ -130,12 +128,11 @@ as shown in the example below.
 
 
 
+
+
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>var reader = new nbt.Reader(buf);
-int x = reader.int();
-int y = reader[3]();
-int z = reader[nbt.tagTypes.int]();</code></pre>
+    <pre class="prettyprint"><code>var reader = new nbt.Reader(buf);int x = reader.int();int y = reader[3]();int z = reader[nbt.tagTypes.int]();</code></pre>
 
 
 
@@ -165,8 +162,7 @@ int z = reader[nbt.tagTypes.int]();</code></pre>
 
 
 <div class="description">
-    The current location in the buffer. Can be freely changed
-within the bounds of the buffer.
+    The current location in the buffer. Can be freely changedwithin the bounds of the buffer.
 </div>
 
 
@@ -214,7 +210,7 @@ within the bounds of the buffer.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="nbt.js.html">nbt.js</a>, <a href="nbt.js.html#line397">line 397</a>
+        <a href="nbt.js.html">nbt.js</a>, <a href="nbt.js.html#line396">line 396</a>
     </li></ul></dd>
     
 
@@ -290,7 +286,7 @@ within the bounds of the buffer.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="nbt.js.html">nbt.js</a>, <a href="nbt.js.html#line408">line 408</a>
+        <a href="nbt.js.html">nbt.js</a>, <a href="nbt.js.html#line412">line 412</a>
     </li></ul></dd>
     
 
@@ -313,11 +309,13 @@ within the bounds of the buffer.
 
 
 
+
+
 <h5>Returns:</h5>
 
         
 <div class="param-desc">
-    the read byte
+    the read unsigned byte
 </div>
 
 
@@ -394,7 +392,7 @@ within the bounds of the buffer.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="nbt.js.html">nbt.js</a>, <a href="nbt.js.html#line413">line 413</a>
+        <a href="nbt.js.html">nbt.js</a>, <a href="nbt.js.html#line407">line 407</a>
     </li></ul></dd>
     
 
@@ -417,11 +415,13 @@ within the bounds of the buffer.
 
 
 
+
+
 <h5>Returns:</h5>
 
         
 <div class="param-desc">
-    the read unsigned byte
+    the read byte
 </div>
 
 
@@ -498,7 +498,7 @@ within the bounds of the buffer.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="nbt.js.html">nbt.js</a>, <a href="nbt.js.html#line449">line 449</a>
+        <a href="nbt.js.html">nbt.js</a>, <a href="nbt.js.html#line448">line 448</a>
     </li></ul></dd>
     
 
@@ -508,6 +508,8 @@ within the bounds of the buffer.
 
     
 </dl>
+
+
 
 
 
@@ -602,7 +604,7 @@ within the bounds of the buffer.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="nbt.js.html">nbt.js</a>, <a href="nbt.js.html#line522">line 522</a>
+        <a href="nbt.js.html">nbt.js</a>, <a href="nbt.js.html#line521">line 521</a>
     </li></ul></dd>
     
 
@@ -612,6 +614,8 @@ within the bounds of the buffer.
 
     
 </dl>
+
+
 
 
 
@@ -649,9 +653,7 @@ within the bounds of the buffer.
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>reader.compound();
-// -> { foo: { type: int, value: 42 },
-//      bar: { type: string, value: 'Hello! }}</code></pre>
+    <pre class="prettyprint"><code>reader.compound();// -> { foo: { type: int, value: 42 },//      bar: { type: string, value: 'Hello! }}</code></pre>
 
 
 
@@ -709,7 +711,7 @@ within the bounds of the buffer.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="nbt.js.html">nbt.js</a>, <a href="nbt.js.html#line433">line 433</a>
+        <a href="nbt.js.html">nbt.js</a>, <a href="nbt.js.html#line432">line 432</a>
     </li></ul></dd>
     
 
@@ -719,6 +721,8 @@ within the bounds of the buffer.
 
     
 </dl>
+
+
 
 
 
@@ -813,7 +817,7 @@ within the bounds of the buffer.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="nbt.js.html">nbt.js</a>, <a href="nbt.js.html#line428">line 428</a>
+        <a href="nbt.js.html">nbt.js</a>, <a href="nbt.js.html#line427">line 427</a>
     </li></ul></dd>
     
 
@@ -823,6 +827,8 @@ within the bounds of the buffer.
 
     
 </dl>
+
+
 
 
 
@@ -917,7 +923,7 @@ within the bounds of the buffer.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="nbt.js.html">nbt.js</a>, <a href="nbt.js.html#line423">line 423</a>
+        <a href="nbt.js.html">nbt.js</a>, <a href="nbt.js.html#line422">line 422</a>
     </li></ul></dd>
     
 
@@ -927,6 +933,8 @@ within the bounds of the buffer.
 
     
 </dl>
+
+
 
 
 
@@ -1021,7 +1029,7 @@ within the bounds of the buffer.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="nbt.js.html">nbt.js</a>, <a href="nbt.js.html#line462">line 462</a>
+        <a href="nbt.js.html">nbt.js</a>, <a href="nbt.js.html#line461">line 461</a>
     </li></ul></dd>
     
 
@@ -1031,6 +1039,8 @@ within the bounds of the buffer.
 
     
 </dl>
+
+
 
 
 
@@ -1125,7 +1135,7 @@ within the bounds of the buffer.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="nbt.js.html">nbt.js</a>, <a href="nbt.js.html#line504">line 504</a>
+        <a href="nbt.js.html">nbt.js</a>, <a href="nbt.js.html#line503">line 503</a>
     </li></ul></dd>
     
 
@@ -1135,6 +1145,8 @@ within the bounds of the buffer.
 
     
 </dl>
+
+
 
 
 
@@ -1172,8 +1184,7 @@ within the bounds of the buffer.
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>reader.list();
-// -> { type: 'string', values: ['foo', 'bar'] }</code></pre>
+    <pre class="prettyprint"><code>reader.list();// -> { type: 'string', values: ['foo', 'bar'] }</code></pre>
 
 
 
@@ -1191,9 +1202,7 @@ within the bounds of the buffer.
 
 
 <div class="description">
-    As JavaScript does not not natively support 64-bit
-integers, the value is returned as an array of two
-32-bit integers, the upper and the lower.
+    As JavaScript does not not natively support 64-bitintegers, the value is returned as an array of two32-bit integers, the upper and the lower.
 </div>
 
 
@@ -1237,7 +1246,7 @@ integers, the value is returned as an array of two
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="nbt.js.html">nbt.js</a>, <a href="nbt.js.html#line438">line 438</a>
+        <a href="nbt.js.html">nbt.js</a>, <a href="nbt.js.html#line437">line 437</a>
     </li></ul></dd>
     
 
@@ -1247,6 +1256,8 @@ integers, the value is returned as an array of two
 
     
 </dl>
+
+
 
 
 
@@ -1301,9 +1312,7 @@ integers, the value is returned as an array of two
 
 
 <div class="description">
-    As JavaScript does not not natively support 64-bit
-integers, the value is returned as an array of arrays of two
-32-bit integers, the upper and the lower.
+    As JavaScript does not not natively support 64-bitintegers, the value is returned as an array of arrays of two32-bit integers, the upper and the lower.
 </div>
 
 
@@ -1347,7 +1356,7 @@ integers, the value is returned as an array of arrays of two
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="nbt.js.html">nbt.js</a>, <a href="nbt.js.html#line475">line 475</a>
+        <a href="nbt.js.html">nbt.js</a>, <a href="nbt.js.html#line474">line 474</a>
     </li></ul></dd>
     
 
@@ -1370,12 +1379,13 @@ integers, the value is returned as an array of arrays of two
 
 
 
+
+
 <h5>Returns:</h5>
 
         
 <div class="param-desc">
-    the read array of 64-bit ints
-    split into [upper, lower]
+    the read array of 64-bit ints    split into [upper, lower]
 </div>
 
 
@@ -1452,7 +1462,7 @@ integers, the value is returned as an array of arrays of two
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="nbt.js.html">nbt.js</a>, <a href="nbt.js.html#line418">line 418</a>
+        <a href="nbt.js.html">nbt.js</a>, <a href="nbt.js.html#line417">line 417</a>
     </li></ul></dd>
     
 
@@ -1462,6 +1472,8 @@ integers, the value is returned as an array of arrays of two
 
     
 </dl>
+
+
 
 
 
@@ -1556,7 +1568,7 @@ integers, the value is returned as an array of arrays of two
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="nbt.js.html">nbt.js</a>, <a href="nbt.js.html#line493">line 493</a>
+        <a href="nbt.js.html">nbt.js</a>, <a href="nbt.js.html#line492">line 492</a>
     </li></ul></dd>
     
 
@@ -1566,6 +1578,8 @@ integers, the value is returned as an array of arrays of two
 
     
 </dl>
+
+
 
 
 
@@ -1628,7 +1642,7 @@ integers, the value is returned as an array of arrays of two
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Dec 16 2018 05:05:14 GMT+0100 (CET)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Sun Jan 19 2020 14:54:20 GMT+0100 (GMT+01:00)
 </footer>
 
 <script> prettyPrint(); </script>
