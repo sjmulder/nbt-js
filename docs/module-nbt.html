@@ -236,6 +236,242 @@
     
 
     
+    <h4 class="name" id=".growCompound"><span class="type-signature">(static) </span>growCompound<span class="signature">(shrinkedCompound)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Attempts to reconstruct a named compound object from a shrinkedcompound. The method uses the smallest sized number type for everynumber, meaning byte, short, int, long and float, double can bedifferent from before nbt.shrinkCompound was used.Beware:- If shrinkedCompound is bad the output may look close to right  even if it is wrong.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>shrinkedCompound</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">a shrinked compound
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the top-level name</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>value</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">a compound</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="nbt.js.html">nbt.js</a>, <a href="nbt.js.html#line867">line 867</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    - a named compound
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>nbt.growCompound({	   foo: 42,    bar: {        age: 22    }})// -> {    name: '',    value: {        foo: { type: 'byte', value: 42 }, 	   bar: { type: 'compound', value: {		       age: { type: 'byte', value: 22 }}}}}</code></pre>
+
+
+
+        
+            
+
+    
+
+    
     <h4 class="name" id=".gunzip"><span class="type-signature">(static) </span>gunzip<span class="signature">(data, callback)</span><span class="type-signature"></span></h4>
     
 
@@ -900,6 +1136,242 @@
     <h5>Example</h5>
     
     <pre class="prettyprint"><code>nbt.parseUncompressed(buf);// -> { name: 'My Level',//      value: { foo: { type: int, value: 42 },//               bar: { type: string, value: 'Hi!' }}}</code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".shrinkCompound"><span class="type-signature">(static) </span>shrinkCompound<span class="signature">(compound)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Destructively and recursively remove type and value parametersfrom a named compound object. Using nbt.growCompound will oftennot revert to the same variable types.Beware:- Bigger datatypes than 32 bits are split into arrays, index 0	 referencing first set of bytes, index 1 referencing next set of	 bytes, etc.- Not recommended to use this unless you already know the layout  of the compound object.- Minecraft sometimes stores unsigned numbers as signed types and  you will have to unsign their values yourself by ANDing the bit	 length of the type - 1. (Byte eg. ubyte = byte & 0xff)
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>compound</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">a named compound
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the top-level name</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>value</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">a compound</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="nbt.js.html">nbt.js</a>, <a href="nbt.js.html#line793">line 793</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    - a shrinked compound
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>nbt.shrinkCompound({    name: 'Top Level',    value: {        foo: { type: 'int', value: 42 }, 	   bar: { type: 'compound', value: {		       age: { type: 'byte', value: 22 }		   }}    }})// -> { foo: 42, bar: { age: 22 } }</code></pre>
 
 
 
@@ -1960,7 +2432,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Sun Jan 19 2020 15:49:35 GMT+0100 (GMT+01:00)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Sun Jan 19 2020 20:16:18 GMT+0100 (GMT+01:00)
 </footer>
 
 <script> prettyPrint(); </script>
