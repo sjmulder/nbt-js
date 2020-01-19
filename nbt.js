@@ -908,7 +908,7 @@
 			if (object.length === 2 &&
 				typeof object[0] === 'number') {
 					// TODO: could be double list?
-					return { type:'long', value:object }
+					return { type:'long', value:object };
 			} else {
 				var type = 'list', value;
 				if (object.length === 0) {
@@ -924,15 +924,26 @@
 							value: object.map(function(obj) {
 								return grow(obj).value;
 							})
-						}
+						};
 					} else {
 						var type = grow(object[0]).type;
-						if (type === 'byte') {
-							type = 'byteArray';
-							value = object;
-						} else if (type === 'int') {
-							type = 'intArray';
-							value = object;
+						if (type === 'byte' || type === 'int') {
+							var largestValue = object[0];
+							object.forEach(function(value) {
+								if (largestValue < value) {
+									largestValue = value;
+								}
+							});
+							type = grow(largestValue).type;
+							if (type === 'byte') {
+								type = 'byteArray';
+								value = object;
+							} else if (type === 'int') {
+								type = 'intArray';
+								value = object;
+							} else {
+								value = { type:type, value:object };
+							}
 						} else {
 							value = { type:type, value:object };
 						}
