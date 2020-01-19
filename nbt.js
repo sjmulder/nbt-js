@@ -581,6 +581,7 @@
 	 * @param {Object} value - a named compound
 	 * @param {string} value.name - the top-level name
 	 * @param {Object} value.value - a compound
+<<<<<<< HEAD
 	 * @param {gzipCallback}
 	 * 
 	 * @see module:nbt.parseCompressed
@@ -594,6 +595,8 @@
 	 *         bar: { type: string, value: 'Hi!' }
 	 *     }
 	 * })
+=======
+>>>>>>> e1be48b58857c294378b849ff86de67bf3234489
 	 */
 	nbt.writeCompressed = function(value, callback) {
 		if (!nbt.gzip) {
