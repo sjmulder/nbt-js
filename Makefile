@@ -8,7 +8,6 @@ all:
 	@echo "Run 'make check' to lint and run tests."
 
 check:
-	cd sample && $(NODE) sample.js > /dev/null
 	$(JSTEST) test/*-spec.js
 
 doc:
