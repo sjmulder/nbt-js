@@ -581,7 +581,6 @@
 	 * @param {Object} value - a named compound
 	 * @param {string} value.name - the top-level name
 	 * @param {Object} value.value - a compound
-<<<<<<< HEAD
 	 * @param {gzipCallback}
 	 * 
 	 * @see module:nbt.parseCompressed
@@ -595,8 +594,6 @@
 	 *         bar: { type: string, value: 'Hi!' }
 	 *     }
 	 * })
-=======
->>>>>>> e1be48b58857c294378b849ff86de67bf3234489
 	 */
 	nbt.writeCompressed = function(value, callback) {
 		if (!nbt.gzip) {
@@ -711,9 +708,10 @@
 	 * @param {ArrayBuffer|Buffer|Uint8Array} result - uncompressed data */
 
 	/**
-	 * @param {ArrayBuffer|Buffer|Uint8Array} data - compressed data
+	 * @param {ArrayBuffer|Buffer|Uint8Array} data - gzipped data
 	 * @param {gunzipCallback} callback
 	 */
+	nbt.gunzip = function(data, callback) {};
 	if (typeof require === 'undefined') {
 		if (!window.zlib) {
 			nbt.gunzip = window.zlib.gunzip;
@@ -735,13 +733,13 @@
 	/**
 	 * @callback gzipCallback
 	 * @param {Object} error
-	 * @param {ArrayBuffer|Buffer|Uint8Array} result - compressed data */
+	 * @param {ArrayBuffer|Buffer|Uint8Array} result - gzipped data */
 
 	/**
-	 * @function gzip
 	 * @param {ArrayBuffer|Buffer|Uint8Array} data - uncompressed data
 	 * @param {gzipCallback} callback
 	 */
+	nbt.gzip = function(data, callback) {};
 	if (typeof require === 'undefined') {
 		if (!window.zlib) {
 			nbt.gzip = window.zlib.gzip;

@@ -236,6 +236,330 @@
     
 
     
+    <h4 class="name" id=".gunzip"><span class="type-signature">(static) </span>gunzip<span class="signature">(data, callback)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>data</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">ArrayBuffer</span>
+|
+
+<span class="param-type">Buffer</span>
+|
+
+<span class="param-type">Uint8Array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">gzipped data</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">gunzipCallback</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="nbt.js.html">nbt.js</a>, <a href="nbt.js.html#line714">line 714</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".gzip"><span class="type-signature">(static) </span>gzip<span class="signature">(data, callback)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>data</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">ArrayBuffer</span>
+|
+
+<span class="param-type">Buffer</span>
+|
+
+<span class="param-type">Uint8Array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">uncompressed data</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">gzipCallback</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="nbt.js.html">nbt.js</a>, <a href="nbt.js.html#line742">line 742</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
     <h4 class="name" id=".parse"><span class="type-signature">(static) </span>parse<span class="signature">(data, callback)</span><span class="type-signature"></span></h4>
     
 
@@ -575,7 +899,7 @@
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>nbt.readUncompressed(buf);// -> { name: 'My Level',//      value: { foo: { type: int, value: 42 },//               bar: { type: string, value: 'Hi!' }}}</code></pre>
+    <pre class="prettyprint"><code>nbt.parseUncompressed(buf);// -> { name: 'My Level',//      value: { foo: { type: int, value: 42 },//               bar: { type: string, value: 'Hi!' }}}</code></pre>
 
 
 
@@ -736,7 +1060,7 @@
 
             
 
-            <td class="description last">compressed nbt data</td>
+            <td class="description last"></td>
         </tr>
 
     
@@ -1059,168 +1383,6 @@
 
 
         
-            
-
-    
-
-    
-    <h4 class="name" id="~gzip"><span class="type-signature">(inner) </span>gzip<span class="signature">(data, callback)</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>data</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">ArrayBuffer</span>
-|
-
-<span class="param-type">Buffer</span>
-|
-
-<span class="param-type">Uint8Array</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">uncompressed data</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>callback</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">gzipCallback</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">compressed data</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="nbt.js.html">nbt.js</a>, <a href="nbt.js.html#line737">line 737</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
     
 
     
@@ -1479,7 +1641,7 @@
 
             
 
-            <td class="description last">compressed data</td>
+            <td class="description last">gzipped data</td>
         </tr>
 
     
@@ -1520,7 +1682,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="nbt.js.html">nbt.js</a>, <a href="nbt.js.html#line732">line 732</a>
+        <a href="nbt.js.html">nbt.js</a>, <a href="nbt.js.html#line733">line 733</a>
     </li></ul></dd>
     
 
@@ -1798,7 +1960,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Sun Jan 19 2020 14:54:20 GMT+0100 (GMT+01:00)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Sun Jan 19 2020 15:49:35 GMT+0100 (GMT+01:00)
 </footer>
 
 <script> prettyPrint(); </script>
