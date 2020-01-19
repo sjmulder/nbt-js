@@ -578,6 +578,25 @@
 	};
 
 	/**
+	 * @param {Object} value - a named compound
+	 * @param {string} value.name - the top-level name
+	 * @param {Object} value.value - a compound
+	 */
+	nbt.writeCompressed = function(value, callback) {
+		if (!nbt.gzip) {
+			callback(new Error('No gzip library available at nbt.gzip'), null);
+		} else {
+			try {
+				var data = nbt.writeUncompressed(value);
+
+				nbt.gzip(data, callback);
+			} catch(error) {
+				callback(error, null);
+			}
+		}
+	};
+
+	/**
 	 * @param {ArrayBuffer|Buffer} data - an uncompressed NBT archive
 	 * @returns {{name: string, value: Object.<string, Object>}}
 	 *     a named compound
@@ -689,7 +708,7 @@
 				} catch(error) {
 					callback(error, null);
 				}
-			}
+			};
 		} else {
 			nbt.gunzip = null;
 		}
