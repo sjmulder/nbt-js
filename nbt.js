@@ -148,7 +148,9 @@
 	 *
 	 * @example
 	 * var writer = new nbt.Writer();
-	 *
+	 * 
+	 * @param {Boolean} littleEndian - the byteorder of the writer
+	 * 
 	 * // all equivalent
 	 * writer.int(42);
 	 * writer[3](42);
@@ -159,8 +161,11 @@
 	 * writer.int(999);
 	 *
 	 * return writer.buffer; */
-	nbt.Writer = function() {
+	nbt.Writer = function(littleEndian) {
 		var self = this;
+		
+		/* To see if the writer is in little endian */
+		this.littleEndian = littleEndian;
 
 		/* Will be resized (x2) on write if necessary. */
 		var buffer = new ArrayBuffer(1024);
@@ -207,7 +212,7 @@
 
 		function write(dataType, size, value) {
 			accommodate(size);
-			dataView['set' + dataType](self.offset, value);
+			dataView['set' + dataType](self.offset, value, self.littleEndian);
 			self.offset += size;
 			return self;
 		}
@@ -378,16 +383,21 @@
 	 *
 	 * @constructor
 	 * @see module:nbt.Writer
+	 * 
+	 * @param {Boolean} littleEndian - the byteorder of the reader
 	 *
 	 * @example
 	 * var reader = new nbt.Reader(buf);
 	 * int x = reader.int();
 	 * int y = reader[3]();
 	 * int z = reader[nbt.tagTypes.int](); */
-	nbt.Reader = function(buffer) {
+	nbt.Reader = function(buffer, littleEndian) {
 		if (!buffer) { throw new Error('Argument "buffer" is falsy'); }
 
 		var self = this;
+
+		/* To see if the reader is in little endian */
+		this.littleEndian = littleEndian;
 
 		/**
 		 * The current location in the buffer. Can be freely changed
@@ -400,7 +410,7 @@
 		var dataView = new DataView(arrayView.buffer);
 
 		function read(dataType, size) {
-			var val = dataView['get' + dataType](self.offset);
+			var val = dataView['get' + dataType](self.offset, self.littleEndian);
 			self.offset += size;
 			return val;
 		}
@@ -553,6 +563,7 @@
 	 * @param {Object} value - a named compound
 	 * @param {string} value.name - the top-level name
 	 * @param {Object} value.value - a compound
+	 * @param {Boolean} [littleEndian=false] - the byte order of the writer
 	 * @returns {ArrayBuffer}
 	 *
 	 * @see module:nbt.parseUncompressed
@@ -566,10 +577,10 @@
 	 *         bar: { type: string, value: 'Hi!' }
 	 *     }
 	 * }); */
-	nbt.writeUncompressed = function(value) {
+	nbt.writeUncompressed = function(value, littleEndian=false) {
 		if (!value) { throw new Error('Argument "value" is falsy'); }
 
-		var writer = new nbt.Writer();
+		var writer = new nbt.Writer(littleEndian);
 
 		writer.byte(nbt.tagTypes.compound);
 		writer.string(value.name);
@@ -580,6 +591,7 @@
 
 	/**
 	 * @param {ArrayBuffer|Buffer} data - an uncompressed NBT archive
+	 * @param {Boolean} [littleEndian=false] - the byte order of the writer
 	 * @returns {{name: string, value: Object.<string, Object>}}
 	 *     a named compound
 	 *
@@ -591,10 +603,10 @@
 	 * // -> { name: 'My Level',
 	 * //      value: { foo: { type: int, value: 42 },
 	 * //               bar: { type: string, value: 'Hi!' }}} */
-	nbt.parseUncompressed = function(data) {
+	nbt.parseUncompressed = function(data, littleEndian=false) {
 		if (!data) { throw new Error('Argument "data" is falsy'); }
 
-		var reader = new nbt.Reader(data);
+		var reader = new nbt.Reader(data, littleEndian);
 
 		var type = reader.byte();
 		if (type !== nbt.tagTypes.compound) {
@@ -626,6 +638,7 @@
 	 *
 	 * @param {ArrayBuffer|Buffer} data - gzipped or uncompressed data
 	 * @param {parseCallback} callback
+	 * @param {Boolean} [littleEndian=false] - the byte order of the writer
 	 *
 	 * @see module:nbt.parseUncompressed
 	 * @see module:nbt.Reader#compound
@@ -638,10 +651,13 @@
 	 *     console.log(result.name);
 	 *     console.log(result.value.foo);
 	 * }); */
-	nbt.parse = function(data, callback) {
+	nbt.parse = function(data, callback, littleEndian=false) {
 		if (!data) { throw new Error('Argument "data" is falsy'); }
 
 		var self = this;
+
+		/* To see if the writer is in little endian */
+		this.littleEndian = littleEndian;
 
 		if (!hasGzipHeader(data)) {
 			callback(null, self.parseUncompressed(data));
