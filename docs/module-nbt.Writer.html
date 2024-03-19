@@ -50,9 +50,7 @@
 
 
 <div class="description">
-    In addition to the named writing methods documented below,
-the same methods are indexed by the NBT type number as well,
-as shown in the example below.
+    In addition to the named writing methods documented below,the same methods are indexed by the NBT type number as well,as shown in the example below.
 </div>
 
 
@@ -96,7 +94,7 @@ as shown in the example below.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="nbt.js.html">nbt.js</a>, <a href="nbt.js.html#line162">line 162</a>
+        <a href="nbt.js.html">nbt.js</a>, <a href="nbt.js.html#line161">line 161</a>
     </li></ul></dd>
     
 
@@ -130,20 +128,11 @@ as shown in the example below.
 
 
 
+
+
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>var writer = new nbt.Writer();
-
-// all equivalent
-writer.int(42);
-writer[3](42);
-writer(nbt.tagTypes.int)(42);
-
-// overwrite the second int
-writer.offset = 0;
-writer.int(999);
-
-return writer.buffer;</code></pre>
+    <pre class="prettyprint"><code>var writer = new nbt.Writer();// all equivalentwriter.int(42);writer[3](42);writer(nbt.tagTypes.int)(42);// overwrite the second intwriter.offset = 0;writer.int(999);return writer.buffer;</code></pre>
 
 
 
@@ -173,9 +162,7 @@ return writer.buffer;</code></pre>
 
 
 <div class="description">
-    The location in the buffer where bytes are written or read.
-This increases after every write, but can be freely changed.
-The buffer will be resized when necessary.
+    The location in the buffer where bytes are written or read.This increases after every write, but can be freely changed.The buffer will be resized when necessary.
 </div>
 
 
@@ -223,7 +210,7 @@ The buffer will be resized when necessary.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="nbt.js.html">nbt.js</a>, <a href="nbt.js.html#line178">line 178</a>
+        <a href="nbt.js.html">nbt.js</a>, <a href="nbt.js.html#line177">line 177</a>
     </li></ul></dd>
     
 
@@ -348,7 +335,7 @@ The buffer will be resized when necessary.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="nbt.js.html">nbt.js</a>, <a href="nbt.js.html#line225">line 225</a>
+        <a href="nbt.js.html">nbt.js</a>, <a href="nbt.js.html#line224">line 224</a>
     </li></ul></dd>
     
 
@@ -358,6 +345,8 @@ The buffer will be resized when necessary.
 
     
 </dl>
+
+
 
 
 
@@ -507,7 +496,7 @@ The buffer will be resized when necessary.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="nbt.js.html">nbt.js</a>, <a href="nbt.js.html#line275">line 275</a>
+        <a href="nbt.js.html">nbt.js</a>, <a href="nbt.js.html#line274">line 274</a>
     </li></ul></dd>
     
 
@@ -517,6 +506,8 @@ The buffer will be resized when necessary.
 
     
 </dl>
+
+
 
 
 
@@ -781,7 +772,7 @@ The buffer will be resized when necessary.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="nbt.js.html">nbt.js</a>, <a href="nbt.js.html#line342">line 342</a>
+        <a href="nbt.js.html">nbt.js</a>, <a href="nbt.js.html#line341">line 341</a>
     </li></ul></dd>
     
 
@@ -791,6 +782,8 @@ The buffer will be resized when necessary.
 
     
 </dl>
+
+
 
 
 
@@ -832,10 +825,7 @@ The buffer will be resized when necessary.
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>writer.compound({
-    foo: { type: 'int', value: 12 },
-    bar: { type: 'string', value: 'Hello, World!' }
-});</code></pre>
+    <pre class="prettyprint"><code>writer.compound({    foo: { type: 'int', value: 12 },    bar: { type: 'string', value: 'Hello, World!' }});</code></pre>
 
 
 
@@ -942,7 +932,7 @@ The buffer will be resized when necessary.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="nbt.js.html">nbt.js</a>, <a href="nbt.js.html#line255">line 255</a>
+        <a href="nbt.js.html">nbt.js</a>, <a href="nbt.js.html#line254">line 254</a>
     </li></ul></dd>
     
 
@@ -952,6 +942,8 @@ The buffer will be resized when necessary.
 
     
 </dl>
+
+
 
 
 
@@ -1095,7 +1087,7 @@ The buffer will be resized when necessary.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="nbt.js.html">nbt.js</a>, <a href="nbt.js.html#line249">line 249</a>
+        <a href="nbt.js.html">nbt.js</a>, <a href="nbt.js.html#line248">line 248</a>
     </li></ul></dd>
     
 
@@ -1105,6 +1097,8 @@ The buffer will be resized when necessary.
 
     
 </dl>
+
+
 
 
 
@@ -1159,8 +1153,7 @@ The buffer will be resized when necessary.
 
 
 <div class="description">
-    Returns the writen data as a slice from the internal buffer,
-cutting off any padding at the end.
+    Returns the writen data as a slice from the internal buffer,cutting off any padding at the end.
 </div>
 
 
@@ -1204,7 +1197,7 @@ cutting off any padding at the end.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="nbt.js.html">nbt.js</a>, <a href="nbt.js.html#line220">line 220</a>
+        <a href="nbt.js.html">nbt.js</a>, <a href="nbt.js.html#line219">line 219</a>
     </li></ul></dd>
     
 
@@ -1214,6 +1207,8 @@ cutting off any padding at the end.
 
     
 </dl>
+
+
 
 
 
@@ -1357,7 +1352,7 @@ cutting off any padding at the end.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="nbt.js.html">nbt.js</a>, <a href="nbt.js.html#line243">line 243</a>
+        <a href="nbt.js.html">nbt.js</a>, <a href="nbt.js.html#line242">line 242</a>
     </li></ul></dd>
     
 
@@ -1367,6 +1362,8 @@ cutting off any padding at the end.
 
     
 </dl>
+
+
 
 
 
@@ -1510,7 +1507,7 @@ cutting off any padding at the end.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="nbt.js.html">nbt.js</a>, <a href="nbt.js.html#line287">line 287</a>
+        <a href="nbt.js.html">nbt.js</a>, <a href="nbt.js.html#line286">line 286</a>
     </li></ul></dd>
     
 
@@ -1520,6 +1517,8 @@ cutting off any padding at the end.
 
     
 </dl>
+
+
 
 
 
@@ -1735,7 +1734,7 @@ cutting off any padding at the end.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="nbt.js.html">nbt.js</a>, <a href="nbt.js.html#line326">line 326</a>
+        <a href="nbt.js.html">nbt.js</a>, <a href="nbt.js.html#line325">line 325</a>
     </li></ul></dd>
     
 
@@ -1745,6 +1744,8 @@ cutting off any padding at the end.
 
     
 </dl>
+
+
 
 
 
@@ -1799,9 +1800,7 @@ cutting off any padding at the end.
 
 
 <div class="description">
-    As JavaScript does not support 64-bit integers natively, this
-method takes an array of two 32-bit integers that make up the
-upper and lower halves of the long.
+    As JavaScript does not support 64-bit integers natively, thismethod takes an array of two 32-bit integers that make up theupper and lower halves of the long.
 </div>
 
 
@@ -1894,7 +1893,7 @@ upper and lower halves of the long.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="nbt.js.html">nbt.js</a>, <a href="nbt.js.html#line261">line 261</a>
+        <a href="nbt.js.html">nbt.js</a>, <a href="nbt.js.html#line260">line 260</a>
     </li></ul></dd>
     
 
@@ -1904,6 +1903,8 @@ upper and lower halves of the long.
 
     
 </dl>
+
+
 
 
 
@@ -2047,7 +2048,7 @@ upper and lower halves of the long.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="nbt.js.html">nbt.js</a>, <a href="nbt.js.html#line300">line 300</a>
+        <a href="nbt.js.html">nbt.js</a>, <a href="nbt.js.html#line299">line 299</a>
     </li></ul></dd>
     
 
@@ -2057,6 +2058,8 @@ upper and lower halves of the long.
 
     
 </dl>
+
+
 
 
 
@@ -2200,7 +2203,7 @@ upper and lower halves of the long.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="nbt.js.html">nbt.js</a>, <a href="nbt.js.html#line237">line 237</a>
+        <a href="nbt.js.html">nbt.js</a>, <a href="nbt.js.html#line236">line 236</a>
     </li></ul></dd>
     
 
@@ -2210,6 +2213,8 @@ upper and lower halves of the long.
 
     
 </dl>
+
+
 
 
 
@@ -2353,7 +2358,7 @@ upper and lower halves of the long.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="nbt.js.html">nbt.js</a>, <a href="nbt.js.html#line313">line 313</a>
+        <a href="nbt.js.html">nbt.js</a>, <a href="nbt.js.html#line312">line 312</a>
     </li></ul></dd>
     
 
@@ -2363,6 +2368,8 @@ upper and lower halves of the long.
 
     
 </dl>
+
+
 
 
 
@@ -2506,7 +2513,7 @@ upper and lower halves of the long.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="nbt.js.html">nbt.js</a>, <a href="nbt.js.html#line231">line 231</a>
+        <a href="nbt.js.html">nbt.js</a>, <a href="nbt.js.html#line230">line 230</a>
     </li></ul></dd>
     
 
@@ -2516,6 +2523,8 @@ upper and lower halves of the long.
 
     
 </dl>
+
+
 
 
 
@@ -2578,7 +2587,7 @@ upper and lower halves of the long.
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Dec 16 2018 05:05:14 GMT+0100 (CET)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Sun Jan 19 2020 20:16:18 GMT+0100 (GMT+01:00)
 </footer>
 
 <script> prettyPrint(); </script>

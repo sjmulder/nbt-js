@@ -2,7 +2,7 @@
 
 var fs = require('fs'),
     nbt = require('../nbt'),
-    expect = require('chai').expect;
+	expect = require('chai').expect;
 
 describe('nbt.parse', function() {
 	function checkBigtest(data) {
@@ -92,5 +92,27 @@ describe('nbt.write', function() {
 		var decodedOutput = nbt.parseUncompressed(output);
 		expect(new Uint8Array(decodedOutput)).to.deep.equal(
 			new Uint8Array(input));
+	});
+});
+
+describe('nbt.shrinkCompound', function() {
+	it('shrinks a named compound', function() {
+		var normalData = fs.readFileSync('fixtures/bigtest.json', 'utf8');
+		var shrinkedData = fs.readFileSync('fixtures/bigtest.shrinked.json', 'utf8');
+		var normalJson = JSON.parse(normalData);
+		var shrinkedJson = JSON.parse(shrinkedData);
+		expect(nbt.shrinkCompound(normalJson)).to.deep.equal(
+			shrinkedJson);
+	});
+});
+
+describe('nbt.growCompound', function() {
+	it('grows a shrinked compound', function() {
+		var shrinkedData = fs.readFileSync('fixtures/bigtest.shrinked.json', 'utf8');
+		var grownData = fs.readFileSync('fixtures/bigtest.grown.json', 'utf8');
+		var shrinkedJson = JSON.parse(shrinkedData);
+		var grownJson = JSON.parse(grownData);
+		expect(nbt.growCompound(shrinkedJson)).to.deep.equal(
+			grownJson);
 	});
 });
