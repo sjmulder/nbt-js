@@ -1,3 +1,19 @@
+**Note:** this repository is archived.
+
+When I started this project, I was deeply involved with both Minecraft
+and JavaScript. Since then, my involvement with both has waned and the
+JavaScript landscape has moved at an incredible pace.
+
+Without a clear vision and no dogfooding, I'm no longer the right
+maintainer for this project and hence have archived this repository.
+There are a good few forks out there which I encourage anyone to seek
+out and give a try.
+
+Apologetically yours,
+
+Sijmen
+___
+
 NBT.js [![Build Status](https://travis-ci.org/sjmulder/nbt-js.png)](https://travis-ci.org/sjmulder/nbt-js)
 ======
 
